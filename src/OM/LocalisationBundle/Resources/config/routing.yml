@@ -1,0 +1,3 @@
+om_localisation_homepage:
+    path:     /
+    defaults: { _controller: OMLocalisationBundle:Default:index }

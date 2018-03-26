@@ -1,0 +1,6 @@
+om_espace_user_homepage:
+    path:     /
+    defaults: { _controller: OMEspaceUserBundle:Default:index }
+om_espace_user_register:
+    path:     /signup
+    defaults: { _controller: OMEspaceUserBundle:Registration:register }

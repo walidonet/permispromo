@@ -1,0 +1,46 @@
+om_administration:
+    resource: "@OMAdministrationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+om_localisation:
+    resource: "@OMLocalisationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+om_espace_user:
+    resource: "@OMEspaceUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# app/config/routing.yml
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+
+
+user_api_demos:
+    type: rest
+    resource: OM\EspaceUserBundle\Controller\DemoController
+
+#tag rest
+tag:
+    resource: "@OMAdministrationBundle/Controller/TagController.php"
+    prefix:   /
+    type:     rest
+#not rest
+notts:
+    resource: "@OMAdministrationBundle/Controller/NotificationController.php"
+    prefix:   /
+    type:     rest
+#session rest
+session:
+    resource: "@OMAuthBundle/Controller/SessionController.php"
+    prefix:   /
+    type:     rest

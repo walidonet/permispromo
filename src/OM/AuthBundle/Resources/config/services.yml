@@ -1,0 +1,4 @@
+services:
+#    om_auth.example:
+#        class: OM\AuthBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
