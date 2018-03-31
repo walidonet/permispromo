@@ -51,15 +51,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="string",nullable=true)
      */
-    private $paiement = "";
-    /**
-     * @ORM\Column(type="string",nullable=true)
-     */
-    private $paiementmode = "";
-    /**
-     * @ORM\Column(type="string",nullable=true)
-     */
-    private $note = "";
+    private $adress = "";
     /**
      * @ORM\Column(type="string",nullable=true)
      */
@@ -69,42 +61,9 @@ class User extends BaseUser
      */
     private $calltype = "";
     /**
-     * @ORM\Column(type="string",nullable=true)
-     */
-    private $offre = "";
-    /**
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $network;
-    /**
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $insta;
-    /**
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $fb;
-    /**
      * @ORM\Column(type="boolean",nullable=true)
      */
     private $confirmation = "";
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
-    private $rdvdep = "";
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
-    private $confrdv = "";
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
-    private $rdvfin = "";
-
-    /**
-     * @ORM\Column(type="string",nullable=true)
-     */
-    private $adress = "";
     /**
      * @ORM\Column(type="blob",nullable=true)
      */
@@ -120,15 +79,57 @@ class User extends BaseUser
      */
     private $monitor;
     /**
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User", inversedBy="clients")
+     * @ORM\JoinColumn(name="agent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $agent;
+    /**
      * @ORM\OneToMany(targetEntity="OM\EspaceUserBundle\Entity\User", mappedBy="monitor")
      */
     private $clients;
     /**
+     * @ORM\OneToMany(targetEntity="OM\EspaceUserBundle\Entity\User", mappedBy="agent")
+     */
+    private $prospects;
+    /**
      * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Tag",inversedBy="prospect",cascade={"persist"})
-     *
-     *
      */
     private $tags;
+    /**
+     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Source",inversedBy="prospect",cascade={"persist"})
+     */
+    private $sources;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Note", inversedBy="prospects")
+     * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $note;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Rdv", inversedBy="prospects")
+     * @ORM\JoinColumn(name="rdv_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $rdv;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentMode", inversedBy="prospects")
+     * @ORM\JoinColumn(name="paymentmode_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $paymentmode;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentModality", inversedBy="prospects")
+     * @ORM\JoinColumn(name="paymentmodality_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $paymentmodality;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Offre", inversedBy="prospects")
+     * @ORM\JoinColumn(name="offre_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $offre;
 
     /**
      * User constructor.
@@ -554,6 +555,104 @@ class User extends BaseUser
     {
         $this->rdvfin = $rdvfin;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAgent()
+    {
+        return $this->agent;
+    }
+
+    /**
+     * @param mixed $agent
+     */
+    public function setAgent($agent)
+    {
+        $this->agent = $agent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProspects()
+    {
+        return $this->prospects;
+    }
+
+    /**
+     * @param mixed $prospects
+     */
+    public function setProspects($prospects)
+    {
+        $this->prospects = $prospects;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * @param mixed $sources
+     */
+    public function setSources($sources)
+    {
+        $this->sources[] = $sources;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRdv()
+    {
+        return $this->rdv;
+    }
+
+    /**
+     * @param mixed $rdv
+     */
+    public function setRdv($rdv)
+    {
+        $this->rdv = $rdv;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaymentmode()
+    {
+        return $this->paymentmode;
+    }
+
+    /**
+     * @param mixed $paymentmode
+     */
+    public function setPaymentmode($paymentmode)
+    {
+        $this->paymentmode = $paymentmode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaymentmodality()
+    {
+        return $this->paymentmodality;
+    }
+
+    /**
+     * @param mixed $paymentmodality
+     */
+    public function setPaymentmodality($paymentmodality)
+    {
+        $this->paymentmodality = $paymentmodality;
+    }
+
+
 
 
 

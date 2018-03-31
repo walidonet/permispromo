@@ -1,26 +1,18 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: pc
- * Date: 19/02/2018
- * Time: 15:14
+ * User: walid
+ * Date: 30/03/2018
+ * Time: 16:12
  */
 
 namespace OM\AdministrationBundle\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use OM\EspaceUserBundle\Entity\User;
-
 /**
- *
- *
- * User
- * @ORM\Table(name="tag")
+ * @ORM\Table(name="source")
  * @ORM\Entity
  */
-
-class Tag
+class Source
 {
     /**
      * @ORM\Id
@@ -32,28 +24,11 @@ class Tag
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $nom ;
+    private $libele ;
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $color ;
-    /**
-     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="tags",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
     private $prospect;
-
-
-
-    /**
-     * Tag constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-
-
 
     /**
      * @return mixed
@@ -74,17 +49,17 @@ class Tag
     /**
      * @return mixed
      */
-    public function getNom()
+    public function getLibele()
     {
-        return $this->nom;
+        return $this->libele;
     }
 
     /**
-     * @param mixed $nom
+     * @param mixed $libele
      */
-    public function setNom($nom)
+    public function setLibele($libele)
     {
-        $this->nom = $nom;
+        $this->libele = $libele;
     }
 
     /**
@@ -96,34 +71,11 @@ class Tag
     }
 
     /**
-     * @return mixed
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * @param mixed $color
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-    }
-
-
-    /**
      * @param mixed $prospect
      */
     public function setProspect($prospect)
     {
         $this->prospect = $prospect;
     }
-
-
-
-
-
-
 
 }

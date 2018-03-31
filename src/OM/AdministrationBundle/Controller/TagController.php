@@ -22,7 +22,7 @@ class TagController extends FOSRestController
 
     //ajout d'un tag
     /**
-     * @Rest\Post("/tag", name="tag")
+     * @Rest\Post("/api/tag", name="tag")
      * @param Request $request
      * @return Response
      */
@@ -32,9 +32,11 @@ class TagController extends FOSRestController
 
         $data = new Tag();
         $nom = $request->get('nom');
+        $color = $request->get('color');
 
 
         $data->setNom($nom);
+        $data->setColor($color);
 
         //var_dump($data);die();
         $em = $this->getDoctrine()->getManager();
@@ -72,7 +74,7 @@ class TagController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("/{id}/tag")
+     * @Rest\Put("api/{id}/tag")
      * @param $id
      * @param Request $request
      * @return Response
@@ -101,7 +103,7 @@ class TagController extends FOSRestController
     }
 
     /**
-     * @Rest\Delete("/{id}/tag")
+     * @Rest\Delete("api/{id}/tag")
      * @param $id
      * @return Response
      */

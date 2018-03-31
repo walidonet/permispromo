@@ -52,6 +52,19 @@ class SessionController extends FOSRestController
 
     }
     /**
+     * @Rest\Post("/worker/add")
+     * @param Request $request
+     * @return View
+     */
+    public function registerworkerAction(Request $request)
+    {
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->registerworkerAction($request);
+
+    }
+    /**
      * @Rest\Put("/api/change/{id}")
      * @param Request $request
      * @return View
@@ -83,6 +96,29 @@ class SessionController extends FOSRestController
 
            // if($userid[$i]->getRoles()==array('ROLE_PROSPECT')){
             if($userid[$i]->getRoles()[0]=='ROLE_PROSPECT'){
+                array_push($pro,$userid[$i]);
+            }
+        }
+        return $pro;
+    }
+    /**
+     * @Rest\Get("/api/myprospect/{id}")
+     */
+    public function getMyproespectAction(Request $request)
+    {
+        $id = $request->get('id');
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->findAll();
+        //return $userid;
+
+        $a=count($userid);
+        $pro=array();
+
+        for($i=0;$i<$a;$i++){
+
+            // if($userid[$i]->getRoles()==array('ROLE_PROSPECT')){
+            if($userid[$i]->getRoles()[0]=='ROLE_PROSPECT' && $userid[$i]->getAgent()->getId()==$id ){
                 array_push($pro,$userid[$i]);
             }
         }

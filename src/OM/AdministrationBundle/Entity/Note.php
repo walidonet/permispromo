@@ -1,26 +1,18 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: pc
- * Date: 19/02/2018
- * Time: 15:14
+ * User: walid
+ * Date: 30/03/2018
+ * Time: 16:12
  */
 
 namespace OM\AdministrationBundle\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use OM\EspaceUserBundle\Entity\User;
-
 /**
- *
- *
- * User
- * @ORM\Table(name="tag")
+ * @ORM\Table(name="note")
  * @ORM\Entity
  */
-
-class Tag
+class Note
 {
     /**
      * @ORM\Id
@@ -34,26 +26,13 @@ class Tag
      */
     private $nom ;
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="datetime",nullable=true)
      */
-    private $color ;
+    private $timing = "";
     /**
-     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="tags",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="notes",cascade={"persist"})
      */
     private $prospect;
-
-
-
-    /**
-     * Tag constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-
-
 
     /**
      * @return mixed
@@ -90,27 +69,26 @@ class Tag
     /**
      * @return mixed
      */
-    public function getProspect()
+    public function getTiming()
     {
-        return $this->prospect;
+        return $this->timing;
+    }
+
+    /**
+     * @param mixed $timing
+     */
+    public function setTiming($timing)
+    {
+        $this->timing = $timing;
     }
 
     /**
      * @return mixed
      */
-    public function getColor()
+    public function getProspect()
     {
-        return $this->color;
+        return $this->prospect;
     }
-
-    /**
-     * @param mixed $color
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-    }
-
 
     /**
      * @param mixed $prospect
@@ -119,11 +97,5 @@ class Tag
     {
         $this->prospect = $prospect;
     }
-
-
-
-
-
-
 
 }

@@ -79,6 +79,10 @@ class RegistrationController extends BaseController
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
         $tags = $request->get('tags');
+        $agent = $request->get('agent');
+        $useragent = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->find($agent);
 
         /***/
 
@@ -101,6 +105,7 @@ class RegistrationController extends BaseController
        // $user->setEmail($email);
 
         $user->setUsername($phone);
+        $user->setAgent($useragent);
         //$user->setTags($tags);
         //$user->setEmail($tags);
         $user->setEmail($phone."@gmail.com");
@@ -192,7 +197,7 @@ class RegistrationController extends BaseController
         $user->setAdress($adress);
         $user->setPhone2($phone2);
         $user->setPhone($phone);
-        $user->setRoles(array('ROLE_MONITOR'));
+        $user->setRoles(array('ROLE_PROSPECT'));
         $userManager->updateUser($user, true);
 
 
@@ -201,5 +206,43 @@ class RegistrationController extends BaseController
         return $response;
 
     }
+    /***/
+    /**
+     *
+     * @Route("/signup", name="user_register")
+     * @Method("POST")
+     * @param Request $request
+     * @return Response
+     */
+    public function registerworkerAction(Request $request)
+    {
+
+
+        $userManager = $this->get('fos_user.user_manager');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $email = $request->get('email');
+        $password = $request->get('password');
+        $roles=$request->get('role');
+        $user = $userManager->createUser();
+        $user->setEmail($email);
+        $user->setEnabled(true);
+        $user->setPassword($password);
+        $user->setPlainPassword($password);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+
+
+
+        $user->setRoles(array($roles));
+        $userManager->updateUser($user, true);
+
+
+        $response = new JsonResponse();
+        $response->setData("User" );
+        return $response;
+
+    }
+
 
 }

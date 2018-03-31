@@ -1,26 +1,19 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: pc
- * Date: 19/02/2018
- * Time: 15:14
+ * User: walid
+ * Date: 30/03/2018
+ * Time: 16:13
  */
 
 namespace OM\AdministrationBundle\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use OM\EspaceUserBundle\Entity\User;
 
 /**
- *
- *
- * User
- * @ORM\Table(name="tag")
+ * @ORM\Table(name="offre")
  * @ORM\Entity
  */
-
-class Tag
+class Offre
 {
     /**
      * @ORM\Id
@@ -28,32 +21,18 @@ class Tag
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $nom ;
+    private $libele ;
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $color ;
+    private $prix ;
     /**
-     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="tags",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
     private $prospect;
-
-
-
-    /**
-     * Tag constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-
-
 
     /**
      * @return mixed
@@ -74,17 +53,33 @@ class Tag
     /**
      * @return mixed
      */
-    public function getNom()
+    public function getLibele()
     {
-        return $this->nom;
+        return $this->libele;
     }
 
     /**
-     * @param mixed $nom
+     * @param mixed $libele
      */
-    public function setNom($nom)
+    public function setLibele($libele)
     {
-        $this->nom = $nom;
+        $this->libele = $libele;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * @param mixed $prix
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
     }
 
     /**
@@ -96,34 +91,11 @@ class Tag
     }
 
     /**
-     * @return mixed
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * @param mixed $color
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-    }
-
-
-    /**
      * @param mixed $prospect
      */
     public function setProspect($prospect)
     {
         $this->prospect = $prospect;
     }
-
-
-
-
-
-
 
 }
