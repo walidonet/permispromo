@@ -25,9 +25,10 @@ class Rdv
      */
     private $type ;
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private $daterdv = "";
+    private $daterdv ;
     /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
