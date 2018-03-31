@@ -56,3 +56,28 @@ source:
     resource: "@OMAdministrationBundle/Controller/SourceController.php"
     prefix:   /
     type:     rest
+
+
+#note rest
+note:
+    resource: "@OMAdministrationBundle/Controller/NoteController.php"
+    prefix:   /
+    type:     rest
+
+#rdv rest
+rdv:
+    resource: "@OMAdministrationBundle/Controller/RdvController.php"
+    prefix:   /
+    type:     rest
+
+#modalité de paiement rest
+pmodality:
+    resource: "@OMAdministrationBundle/Controller/PmodalityController.php"
+    prefix:   /
+    type:     rest
+
+#mode de paiement rest
+pmode:
+    resource: "@OMAdministrationBundle/Controller/PmodeController.php"
+    prefix:   /
+    type:     rest
