@@ -7,6 +7,7 @@
  */
 
 namespace OM\AdministrationBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="source")
@@ -29,6 +30,16 @@ class Source
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
     private $prospect;
+
+    /**
+     * Source constructor.
+     */
+    public function __construct()
+    {
+        $this->prospect = new ArrayCollection();
+
+    }
+
 
     /**
      * @return mixed

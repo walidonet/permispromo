@@ -26,13 +26,26 @@ class Note
      */
     private $nom ;
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private $timing = "";
+    private $timing ;
     /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="notes",cascade={"persist"})
      */
     private $prospect;
+
+    /**
+     * Note constructor.
+     */
+    public function __construct()
+    {
+
+        $this->timing = new \DateTime('now');
+
+
+    }
+
 
     /**
      * @return mixed

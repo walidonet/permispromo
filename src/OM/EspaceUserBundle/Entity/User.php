@@ -47,7 +47,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="integer",nullable=true)
      */
-    private $starcount = "";
+    private $starcount ;
     /**
      * @ORM\Column(type="string",nullable=true)
      */
@@ -63,11 +63,11 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="boolean",nullable=true)
      */
-    private $confirmation = "";
+    private $confirmation;
     /**
      * @ORM\Column(type="blob",nullable=true)
      */
-    private $picture = "";
+    private $picture;
     /**
      * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Meeting", mappedBy="client")
      */

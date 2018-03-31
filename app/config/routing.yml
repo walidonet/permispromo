@@ -44,3 +44,15 @@ session:
     resource: "@OMAuthBundle/Controller/SessionController.php"
     prefix:   /
     type:     rest
+
+#circuit rest
+circuit:
+    resource: "@OMLocalisationBundle/Controller/CircuitController.php"
+    prefix:   /
+    type:     rest
+
+#source rest
+source:
+    resource: "@OMAdministrationBundle/Controller/SourceController.php"
+    prefix:   /
+    type:     rest

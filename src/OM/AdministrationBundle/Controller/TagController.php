@@ -125,5 +125,19 @@ class TagController extends FOSRestController
     }
 
 
+    /**
+     * @Rest\Get("api/tag/{id}")
+     * @param $id
+     * @return View|object|Tag
+     */
+    public function getTagByIdAction($id)
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Tag')->find($id);
+        if ($singleresult === null) {
+            return new View("tag not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
 
 }
