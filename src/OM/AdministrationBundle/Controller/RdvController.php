@@ -115,6 +115,39 @@ class RdvController extends FOSRestController
         return $this->handleView($view);
     }
 
+//    /**
+//     * @Rest\Put("api/{id}/rdvonoff")
+//     * @param $id
+//     * @param Request $request
+//     * @return Response
+//     */
+    /*public function onoffAction($id,Request $request)
+    {
+        $data = new Rdv();
+        $em = $this->getDoctrine()->getManager();
+        $rdv = $this->getDoctrine()->getRepository('OMAdministrationBundle:Rdv')->find($id);
+        if (empty($rdv)) {
+            $view = new View("Rdv not found", Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+        elseif(!empty($rdv) ){
+            if($rdv->getWork())
+                $rdv->setWork(false);
+            else
+                $rdv->setWork(true);
+            $em->flush();
+            $view =new View("Rdv Updated Successfully", Response::HTTP_OK);
+            return $this->handleView($view);
+        }
+        else{
+            $view = new View("Rdv cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
+
+            return $this->handleView($view);
+        }
+    }*/
+
+
+
     /**
      * @Rest\Get("api/rdv/{id}")
      * @param $id

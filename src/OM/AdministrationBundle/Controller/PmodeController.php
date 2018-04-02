@@ -111,6 +111,62 @@ class PmodeController extends FOSRestController
     }
 
     /**
+     * @Rest\Get("/api/pmodeactive")
+     *
+     */
+    public function getPmodeactiveAction()
+    {
+        $restresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->findAll();
+        if ($restresult === null) {
+            return new View("Pas de mode de paiement disponible", Response::HTTP_NOT_FOUND);
+        }
+        $formatted = [];
+        foreach ($restresult as $result) {
+            if($result->getWork()) {
+                $formatted[] = [
+                    'id' => $result->getId(),
+                    'libele' => $result->getLibele(),
+
+
+                ];
+            }
+        }
+
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Rest\Put("api/{id}/pmodeonoff")
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function onoffAction($id,Request $request)
+    {
+        $data = new PaymentMode();
+        $em = $this->getDoctrine()->getManager();
+        $pmode = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->find($id);
+        if (empty($pmode)) {
+            $view = new View("payment mode not found", Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+        elseif(!empty($pmode) ){
+            if($pmode->getWork())
+                $pmode->setWork(false);
+            else
+                $pmode->setWork(true);
+            $em->flush();
+            $view =new View("payment mode Updated Successfully", Response::HTTP_OK);
+            return $this->handleView($view);
+        }
+        else{
+            $view = new View("payment mode cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
+
+            return $this->handleView($view);
+        }
+    }
+
+    /**
      * @Rest\Get("api/pmode/{id}")
      * @param $id
      * @return View|object|PaymentMode

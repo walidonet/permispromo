@@ -30,6 +30,10 @@ class Offre
      */
     private $prix ;
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $work ;
+    /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
     private $prospect;
@@ -81,6 +85,24 @@ class Offre
     {
         $this->prix = $prix;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getWork()
+    {
+        return $this->work;
+    }
+
+    /**
+     * @param mixed $work
+     */
+    public function setWork($work)
+    {
+        $this->work = $work;
+    }
+
+
 
     /**
      * @return mixed

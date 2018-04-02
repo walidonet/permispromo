@@ -111,6 +111,40 @@ class NoteController extends FOSRestController
     }
 
     /**
+     * @Rest\Put("api/{id}/Noteonoff")
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function onoffAction($id,Request $request)
+    {
+        $data = new Note();
+        $em = $this->getDoctrine()->getManager();
+        $note = $this->getDoctrine()->getRepository('OMAdministrationBundle:Note')->find($id);
+        if (empty($note)) {
+            $view = new View("Note not found", Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+        elseif(!empty($note) ){
+            if($note->getWork())
+                $note->setWork(false);
+            else
+                $note->setWork(true);
+            $em->flush();
+            $view =new View("Note Updated Successfully", Response::HTTP_OK);
+            return $this->handleView($view);
+        }
+        else{
+            $view = new View("Note cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
+
+            return $this->handleView($view);
+        }
+    }
+
+
+
+
+    /**
      * @Rest\Get("api/note/{id}")
      * @param $id
      * @return View|object|Note

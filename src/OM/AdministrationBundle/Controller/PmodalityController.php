@@ -110,6 +110,62 @@ class PmodalityController extends FOSRestController
     }
 
     /**
+     * @Rest\Get("/api/pmodalityactive")
+     *
+     */
+    public function getPmodalityactiveAction()
+    {
+        $restresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->findAll();
+        if ($restresult === null) {
+            return new View("Pas de modalité de paiement disponible", Response::HTTP_NOT_FOUND);
+        }
+        $formatted = [];
+        foreach ($restresult as $result) {
+            if($result->getWork()) {
+                $formatted[] = [
+                    'id' => $result->getId(),
+                    'libele' => $result->getLibele(),
+
+
+                ];
+            }
+        }
+
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Rest\Put("api/{id}/pmodalityonoff")
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function onoffAction($id,Request $request)
+    {
+        $data = new PaymentModality();
+        $em = $this->getDoctrine()->getManager();
+        $pmodality = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->find($id);
+        if (empty($pmodality)) {
+            $view = new View("payment modality not found", Response::HTTP_NOT_FOUND);
+            return $this->handleView($view);
+        }
+        elseif(!empty($pmodality) ){
+            if($pmodality->getWork())
+                $pmodality->setWork(false);
+            else
+                $pmodality->setWork(true);
+            $em->flush();
+            $view =new View("payment modality Updated Successfully", Response::HTTP_OK);
+            return $this->handleView($view);
+        }
+        else{
+            $view = new View("payment modality cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
+
+            return $this->handleView($view);
+        }
+    }
+
+    /**
      * @Rest\Get("api/pmodality/{id}")
      * @param $id
      * @return View|object|PaymentModality

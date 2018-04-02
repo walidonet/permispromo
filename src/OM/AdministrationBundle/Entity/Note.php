@@ -30,6 +30,12 @@ class Note
      * @ORM\Column(type="datetime",nullable=true)
      */
     private $timing ;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $work ;
+
     /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="notes",cascade={"persist"})
      */
@@ -94,6 +100,23 @@ class Note
     {
         $this->timing = $timing;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getWork()
+    {
+        return $this->work;
+    }
+
+    /**
+     * @param mixed $work
+     */
+    public function setWork($work)
+    {
+        $this->work = $work;
+    }
+
 
     /**
      * @return mixed

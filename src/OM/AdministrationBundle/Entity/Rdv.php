@@ -29,6 +29,10 @@ class Rdv
      * @ORM\Column(type="datetime",nullable=true)
      */
     private $daterdv ;
+//    /**
+//     * @ORM\Column(type="boolean", nullable=true)
+//     */
+//    private $work ;
     /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
@@ -81,6 +85,24 @@ class Rdv
     {
         $this->daterdv = $daterdv;
     }
+
+//    /**
+//     * @return mixed
+//     */
+//    public function getWork()
+//    {
+//        return $this->work;
+//    }
+//
+//    /**
+//     * @param mixed $work
+//     */
+//    public function setWork($work)
+//    {
+//        $this->work = $work;
+//    }
+//
+
 
     /**
      * @return mixed

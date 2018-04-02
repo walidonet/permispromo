@@ -26,6 +26,12 @@ class Source
      * @ORM\Column(type="string", nullable=true)
      */
     private $libele ;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $work ;
+
     /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist"})
      */
@@ -72,6 +78,24 @@ class Source
     {
         $this->libele = $libele;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getWork()
+    {
+        return $this->work;
+    }
+
+    /**
+     * @param mixed $work
+     */
+    public function setWork($work)
+    {
+        $this->work = $work;
+    }
+
+
 
     /**
      * @return mixed

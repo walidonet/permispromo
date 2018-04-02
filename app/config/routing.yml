@@ -81,3 +81,9 @@ pmode:
     resource: "@OMAdministrationBundle/Controller/PmodeController.php"
     prefix:   /
     type:     rest
+
+#offre rest
+offre:
+    resource: "@OMAdministrationBundle/Controller/OffreController.php"
+    prefix:   /
+    type:     rest
