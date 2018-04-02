@@ -495,18 +495,7 @@ class User extends BaseUser
     /**
      * @return mixed
      */
-    public function getPaiement()
-    {
-        return $this->paiement;
-    }
 
-    /**
-     * @param mixed $paiement
-     */
-    public function setPaiement($paiement)
-    {
-        $this->paiement = $paiement;
-    }
 
     /**
      * @return mixed

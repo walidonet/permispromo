@@ -38,6 +38,10 @@ class Tag
      */
     private $color ;
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $work ;
+    /**
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="tags",cascade={"persist"})
      */
     private $prospect;
@@ -118,6 +122,22 @@ class Tag
     public function setProspect($prospect)
     {
         $this->prospect = $prospect;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWork()
+    {
+        return $this->work;
+    }
+
+    /**
+     * @param mixed $work
+     */
+    public function setWork($work)
+    {
+        $this->work = $work;
     }
 
 
