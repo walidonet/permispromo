@@ -37,7 +37,7 @@ class Note
     private $work ;
 
     /**
-     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="notes",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="prospects",cascade={"persist"})
      */
     private $prospect;
 

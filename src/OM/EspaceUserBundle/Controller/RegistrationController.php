@@ -63,8 +63,10 @@ class RegistrationController extends BaseController
         $adress = $request->get('adress');
         $adress2 = $request->get('adress2');
         $calltype = $request->get('calltype');
+        /*
         $fb = $request->get('fb');
         $insta = $request->get('insta');
+        */
         $network = $request->get('network');
         $offre = $request->get('offre');
         $note = $request->get('note');

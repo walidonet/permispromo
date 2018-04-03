@@ -100,18 +100,7 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Source",inversedBy="prospect",cascade={"persist"})
      */
     private $sources;
-    /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Note", inversedBy="prospects")
-     * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $note;
-    /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Rdv", inversedBy="prospects")
-     * @ORM\JoinColumn(name="rdv_id", referencedColumnName="id")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $rdv;
+
     /**
      * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentMode", inversedBy="prospects")
      * @ORM\JoinColumn(name="paymentmode_id", referencedColumnName="id")
@@ -428,21 +417,7 @@ class User extends BaseUser
         $this->starcount = $starcount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
 
-    /**
-     * @param mixed $note
-     */
-    public function setNote($note)
-    {
-        $this->note = $note;
-    }
 
     /**
      * @return mixed
@@ -593,21 +568,7 @@ class User extends BaseUser
         $this->sources[] = $sources;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRdv()
-    {
-        return $this->rdv;
-    }
 
-    /**
-     * @param mixed $rdv
-     */
-    public function setRdv($rdv)
-    {
-        $this->rdv = $rdv;
-    }
 
     /**
      * @return mixed
