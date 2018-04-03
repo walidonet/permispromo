@@ -7,10 +7,12 @@
  */
 
 namespace OM\EspaceUserBundle\Controller;
+use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 /*****/
 
 use OM\AdministrationBundle\Entity\Folder;
+use OM\AdministrationBundle\Entity\Source;
 use OM\AdministrationBundle\Entity\Tag;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,39 +59,52 @@ class RegistrationController extends BaseController
 
 
         $userManager = $this->get('fos_user.user_manager');
-       // $confrdv = $request->get('confrdv');
+
+
+
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
         $phone = $request->get('phone');
         $phone2 = $request->get('phone2');
+        $starcount = $request->get('starsCount');
         $adress = $request->get('adress');
         $adress2 = $request->get('adress2');
         $calltype = $request->get('calltype');
-        /*
-        $fb = $request->get('fb');
-        $insta = $request->get('insta');
-        */
-        $network = $request->get('network');
-        $offre = $request->get('offre');
-        $note = $request->get('note');
-        $confrdv = $request->get('confrdv');
         $confirmation = $request->get('confirmation');
-        $rdvfin = $request->get('rdvfin');
-        $rdvdep = $request->get('rdvdep');
-        $paiementmode = $request->get('paiementmode');
-        $paiement = $request->get('paiement');
-        $starcount = $request->get('starsCount');
-        /***/
-        $firstname = $request->get('firstname');
-        $lastname = $request->get('lastname');
-        $tags = $request->get('tags');
+
         $agent = $request->get('agent');
         $useragent = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->find($agent);
 
-        /***/
-
+        $tags = $request->get('tags');
+        $sources = $request->get('sources');
 
         $user = $userManager->createUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        $paymentmode = $request->get('paymentmode');
+        $pmode = $em->getRepository('OMAdministrationBundle:PaymentMode')
+            ->find($paymentmode);
+
+        $paymentmodality = $request->get('paymentmodality');
+        $pmode = $em->getRepository('OMAdministrationBundle:PaymentModality')
+            ->find($paymentmodality);
+
+        $offre = $request->get('offre');
+        $offreuser = $em->getRepository('OMAdministrationBundle:Offre')
+            ->find($offre);
+
+
+
+
+
+
+
+
+
         $a=json_decode($tags);
         $ltag =  (array) new Tag();
         for($c=0;$c<count($a);$c++){
@@ -99,66 +114,40 @@ class RegistrationController extends BaseController
 
             array_push($ltag,$tmp);
             $user->setTags($tmp);
-
         }
-        //$user->setTags($ltag);
-       //var_dump($password['first_options']);die();
-        //$user->setUsername($username);
-       // $user->setEmail($email);
+
+        $b=json_decode($sources);
+        $source =  (array) new Source();
+        for($count=0;$count<count($b);$c++){
+            $tmp = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('OMAdministrationBundle:Source')
+                ->findOneBy(array('libele'=>$b[$c]));
+
+            array_push($source,$tmp);
+            $user->setSources($tmp);
+        }
 
         $user->setUsername($phone);
-        $user->setAgent($useragent);
-        //$user->setTags($tags);
-        //$user->setEmail($tags);
         $user->setEmail($phone."@gmail.com");
         $user->setEnabled(true);
         $user->setPassword($phone);
         $user->setPlainPassword($phone);
-        $user->setStarcount($starcount);
+
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
-
-        $user->setPaiement($paiement);
-        $user->setPaiementmode($paiementmode);
-        $user->setRdvfin(new \DateTime($rdvfin));
-        $user->setRdvfin(new \DateTime($rdvfin));
-        $user->setRdvdep(new \DateTime($rdvdep));
-        if($confirmation== null|| $confirmation == 'false'){
-            $user->setConfirmation(0);
-        }
-        else{
-            $user->setConfirmation(1);
-        }
-        $user->setConfrdv(new \DateTime($confrdv));
-        $user->setOffre($offre);
-        if($network== '' || $network == 'false'){
-            $user->setNetwork(0);
-        }else {
-            $user->setNetwork(1);
-        }
-        if($insta== ''|| $insta == 'false'){
-            $user->setInsta(0);
-        }else {
-            $user->setInsta(1);
-        }
-        if($fb== ''|| $fb == 'false'){
-            $user->setFb(0);
-        }
-        else {
-            $user->setFb(1);
-        }
-        $user->setCalltype($calltype);
-        $user->setNote($note);
-        $user->setAdress2($adress2);
-        $user->setAdress($adress);
-        $user->setPhone2($phone2);
         $user->setPhone($phone);
-        /***/
-        //$user->setRoles(array($roles));
-
+        $user->setPhone2($phone2);
+        $user->setStarcount($starcount);
+        $user->setAdress($adress);
+        $user->setAdress2($adress2);
+        $user->setCalltype($calltype);
+        $user->setConfirmation($confirmation);
+        $user->setAgent($useragent);
+        $user->setPaiement($paymentmodality);
+        $user->setPaiementmode($pmode);
+        $user->setOffre($offre);
         $user->setRoles(array('ROLE_PROSPECT'));
         $userManager->updateUser($user, true);
-
 
         $response = new JsonResponse();
         $response->setData("User" );
