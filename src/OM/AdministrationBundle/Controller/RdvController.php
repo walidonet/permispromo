@@ -28,9 +28,12 @@ class RdvController extends FOSRestController
         $rdv = new Rdv();
         $type = $request->get('type');
         $daterdv =  new \DateTime($request->get('daterdv'));
+        $prospect = $request->get('prospect');
 
         $rdv->setType($type);
         $rdv->setDaterdv($daterdv);
+        $rdv->setProspect($prospect);
+
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($rdv);
@@ -73,15 +76,19 @@ class RdvController extends FOSRestController
     {
         $type = $request->get('type');
         $daterdv = new \DateTime($request->get('daterdv'));
+        $prospect = $request->get('prospect');
+
         $em = $this->getDoctrine()->getManager();
         $rdv = $this->getDoctrine()->getRepository('OMAdministrationBundle:Rdv')->find($id);
         if (empty($rdv)) {
             $view = new View("rdv not found", Response::HTTP_NOT_FOUND);
             return $this->handleView($view);
         }
-        elseif(!empty($type) && !empty($daterdv)){
+        elseif(!empty($type) && !empty($daterdv) && !empty($prospect)){
             $rdv->setDaterdv($daterdv);
             $rdv->setType($type);
+            $rdv->setProspect($prospect);
+
             $em->flush();
             $view =new View("rdv Updated Successfully", Response::HTTP_OK);
             return $this->handleView($view);

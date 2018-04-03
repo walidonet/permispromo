@@ -25,8 +25,10 @@ class NoteController extends FOSRestController
 
         $data = new Note();
         $nom = $request->get('nom');
+        $prospect = $request->get('prospect');
 
         $data->setNom($nom);
+        $data->setProspect($prospect);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($data);
@@ -52,6 +54,7 @@ class NoteController extends FOSRestController
 
                 'nom' => $result->getNom(),
                 'timing' => $result->getTiming(),
+                'prospect'=> $result->getProspect(),
 
             ];
         }
@@ -69,13 +72,14 @@ class NoteController extends FOSRestController
     {
         $note = new Note();
         $nom = $request->get('nom');
+        $prospect = $request->get('prospect');
         $em = $this->getDoctrine()->getManager();
         $note = $this->getDoctrine()->getRepository('OMAdministrationBundle:Note')->find($id);
         if (empty($note)) {
             $view = new View("note not found", Response::HTTP_NOT_FOUND);
             return $this->handleView($view);
         }
-        elseif(!empty($nom) ){
+        elseif(!empty($nom) && !empty($prospect)){
             $note->setNom($nom);
             $em->flush();
             $view =new View("note Updated Successfully", Response::HTTP_OK);
