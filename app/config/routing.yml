@@ -87,3 +87,9 @@ offre:
     resource: "@OMAdministrationBundle/Controller/OffreController.php"
     prefix:   /
     type:     rest
+
+#registration rest
+registration:
+    resource: "@OMEspaceUserBundle/Controller/RegistrationController.php"
+    prefix:   /
+    type:     rest

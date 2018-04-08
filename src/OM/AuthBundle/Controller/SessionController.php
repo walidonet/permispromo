@@ -64,10 +64,11 @@ class SessionController extends FOSRestController
         $reg->registerworkerAction($request);
 
     }
+
     /**
      * @Rest\Put("/api/change/{id}")
      * @param Request $request
-     * @return View
+     * @return void
      */
     public function changeAction(Request $request)
     {
@@ -75,6 +76,20 @@ class SessionController extends FOSRestController
 
         $reg = new RegistrationController( $this->container);
         $reg->updaterAction($request);
+
+    }
+
+    /**
+     * @Rest\Put("/api/converte/{id}")
+     * @param Request $request
+     * @return void
+     */
+    public function converteAction(Request $request)
+    {
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->converterAction($request);
 
     }
 

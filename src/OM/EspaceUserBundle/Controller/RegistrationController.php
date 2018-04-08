@@ -8,14 +8,18 @@
 
 namespace OM\EspaceUserBundle\Controller;
 use Doctrine\ORM\EntityManager;
+use FOS\RestBundle\View\View;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 /*****/
+
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 use OM\AdministrationBundle\Entity\Folder;
 use OM\AdministrationBundle\Entity\Note;
 use OM\AdministrationBundle\Entity\Rdv;
 use OM\AdministrationBundle\Entity\Source;
 use OM\AdministrationBundle\Entity\Tag;
+use OM\EspaceUserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,16 +41,12 @@ class RegistrationController extends BaseController
 
     /**
      * AfterLoginFailureRedirection constructor.
-     * @param RouterInterface $router
      * @param ContainerInterface $container
      */
-    public function __construct( ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-
-
-
 
 
     /**
@@ -63,7 +63,6 @@ class RegistrationController extends BaseController
         $userManager = $this->get('fos_user.user_manager');
 
 
-
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
         $phone = $request->get('phone');
@@ -74,7 +73,7 @@ class RegistrationController extends BaseController
         $calltype = $request->get('calltype');
         $note = $request->get('note');
         //date
-      $confirmation = $request->get('confirmation'); //date confirmation
+        $confirmation = $request->get('confirmation'); //date confirmation
         $rdvdep = $request->get('confirmation'); //daterdv
         $rdvfin = $request->get('confirmation'); //ouver jus
         // confir
@@ -94,27 +93,27 @@ class RegistrationController extends BaseController
 
 
         $rdvfinrdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$rdvfin));
+        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvfin));
         $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt=new \DateTime($dt1);
+        $dt = new \DateTime($dt1);
         $rdvfinrdv->setDaterdv($dt);
 
         $rdvfinrdv->setType(2);
         $rdvfinrdv->setDaterdv($dt);
 
         $rdvdeprdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$rdvdep));
+        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvdep));
         $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt=new \DateTime($dt1);
+        $dt = new \DateTime($dt1);
         $rdvdeprdv->setDaterdv($dt);
 
         $rdvdeprdv->setType(1);
         $rdvdeprdv->setDaterdv($dt);
 
         $confirmationrdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$confirmation));
+        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $confirmation));
         $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt=new \DateTime($dt1);
+        $dt = new \DateTime($dt1);
         $confirmationrdv->setDaterdv($dt);
 
         $confirmationrdv->setType(3);
@@ -126,8 +125,6 @@ class RegistrationController extends BaseController
 
 
         $user = $userManager->createUser();
-
-
 
 
         $paymentmode = $request->get('paiementmode');
@@ -143,43 +140,36 @@ class RegistrationController extends BaseController
             ->find($offre);
 
 
+        $a = json_decode($tags);
 
-
-
-
-
-
-
-        $a=json_decode($tags);
-
-        $ltag =  (array) new Tag();
-        for($c=0;$c<count($a);$c++){
+        $ltag = (array)new Tag();
+        for ($c = 0; $c < count($a); $c++) {
 
             $tmp = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('OMAdministrationBundle:Tag')
                 ->findOneBynom($a[$c]);
-            array_push($ltag,$tmp);
+            array_push($ltag, $tmp);
             $user->setTags($tmp);
         }
-       // dump($user->getTags());die();
+        // dump($user->getTags());die();
 
 
-        $b=json_decode($sources);
-        $source =  (array) new Source();
+        $b = json_decode($sources);
+        $source = (array)new Source();
         //for($count=0;$count<count($b);$c++){
-            $tmp = $this->get('doctrine.orm.entity_manager')
-                ->getRepository('OMAdministrationBundle:Source')
-                ->findOneBy(array('libele'=>$sources));
+        $tmp = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMAdministrationBundle:Source')
+            ->findOneBy(array('libele' => $sources));
 
-            //array_push($source,$tmp);
-            $user->setSources($tmp);
-       // }
+        //array_push($source,$tmp);
+        $user->setSources($tmp);
+        // }
 
         //$user->setSources($sources);
 
 
         $user->setUsername($phone);
-        $user->setEmail($phone."@gmail.com");
+        $user->setEmail($phone . "@gmail.com");
         $user->setEnabled(true);
         $user->setPassword($phone);
         $user->setPlainPassword($phone);
@@ -192,8 +182,8 @@ class RegistrationController extends BaseController
         $user->setAdress($adress);
         $user->setAdress2($adress2);
         $user->setCalltype($calltype);
-        if($confrdv=='true')
-        $user->setConfrdv(true);
+        if ($confrdv == 'true')
+            $user->setConfrdv(true);
         else
             $user->setConfrdv(false);
         $user->setAgent($useragent);
@@ -218,10 +208,11 @@ class RegistrationController extends BaseController
 
 
         $response = new JsonResponse();
-        $response->setData("User" );
+        $response->setData("User");
         return $response;
 
     }
+
 //fct
     public function updaterAction(Request $request)
     {
@@ -254,12 +245,9 @@ class RegistrationController extends BaseController
             ->find($offre);
 
 
-
-
-
         $user->setUsername($phone);
         $user->setStarcount($starcount);
-        $user->setEmail($phone."@gmail.com");
+        $user->setEmail($phone . "@gmail.com");
         $user->setEnabled(true);
         $user->setPassword($phone);
         $user->setPlainPassword($phone);
@@ -276,10 +264,34 @@ class RegistrationController extends BaseController
 
         $userManager->updateUser($user, true);
         $response = new JsonResponse();
-        $response->setData("User" );
+        $response->setData("User");
         return $response;
     }
 
 
+    public function converterAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->find($request->get('id'));
 
+        $email = $request->get('email');
+        $password1 = $request->get('password');
+        $password2 = $request->get('plainPassword');
+
+
+        $user->setEmail($email);
+        $user->setPassword($password1);
+        $user->setPlainPassword($password2);
+        $user->setRoles(array('ROLE_CLIENT'));
+
+        $userManager->updateUser($user, true);
+        $response = new JsonResponse();
+        $response->setData("User");
+        return $response;
+
+
+    }
 }
