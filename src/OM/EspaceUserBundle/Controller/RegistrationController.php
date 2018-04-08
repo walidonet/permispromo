@@ -12,6 +12,8 @@ use FOS\UserBundle\Controller\RegistrationController as BaseController;
 /*****/
 
 use OM\AdministrationBundle\Entity\Folder;
+use OM\AdministrationBundle\Entity\Note;
+use OM\AdministrationBundle\Entity\Rdv;
 use OM\AdministrationBundle\Entity\Source;
 use OM\AdministrationBundle\Entity\Tag;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -70,27 +72,70 @@ class RegistrationController extends BaseController
         $adress = $request->get('adress');
         $adress2 = $request->get('adress2');
         $calltype = $request->get('calltype');
-        $confirmation = $request->get('confirmation');
+        $note = $request->get('note');
+        //date
+      $confirmation = $request->get('confirmation'); //date confirmation
+        $rdvdep = $request->get('confirmation'); //daterdv
+        $rdvfin = $request->get('confirmation'); //ouver jus
+        // confir
+        $confrdv = $request->get('confrdv'); //bouton conf
 
         $agent = $request->get('agent');
         $useragent = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->find($agent);
+        $em = $this->getDoctrine()->getManager();
+
+        $noteuser = new Note();
+        $noteuser->setWork(1);
+        $noteuser->setNom($note);
+
+        $noteuser->setTiming(new \DateTime('now'));
+
+
+        $rdvfinrdv = new Rdv();
+        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$rdvfin));
+        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+        $dt=new \DateTime($dt1);
+        $rdvfinrdv->setDaterdv($dt);
+
+        $rdvfinrdv->setType(2);
+        $rdvfinrdv->setDaterdv($dt);
+
+        $rdvdeprdv = new Rdv();
+        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$rdvdep));
+        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+        $dt=new \DateTime($dt1);
+        $rdvdeprdv->setDaterdv($dt);
+
+        $rdvdeprdv->setType(1);
+        $rdvdeprdv->setDaterdv($dt);
+
+        $confirmationrdv = new Rdv();
+        $timestamp = strtotime(preg_replace('/( \(.*)$/','',$confirmation));
+        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+        $dt=new \DateTime($dt1);
+        $confirmationrdv->setDaterdv($dt);
+
+        $confirmationrdv->setType(3);
+        $confirmationrdv->setDaterdv($dt);
+
 
         $tags = $request->get('tags');
-        $sources = $request->get('sources');
+        $sources = $request->get('fb');
+
 
         $user = $userManager->createUser();
 
-        $em = $this->getDoctrine()->getManager();
 
 
-        $paymentmode = $request->get('paymentmode');
+
+        $paymentmode = $request->get('paiementmode');
         $pmode = $em->getRepository('OMAdministrationBundle:PaymentMode')
             ->find($paymentmode);
 
-        $paymentmodality = $request->get('paymentmodality');
-        $pmode = $em->getRepository('OMAdministrationBundle:PaymentModality')
+        $paymentmodality = $request->get('paiement');
+        $pmoda = $em->getRepository('OMAdministrationBundle:PaymentModality')
             ->find($paymentmodality);
 
         $offre = $request->get('offre');
@@ -106,26 +151,32 @@ class RegistrationController extends BaseController
 
 
         $a=json_decode($tags);
+
         $ltag =  (array) new Tag();
         for($c=0;$c<count($a);$c++){
+
             $tmp = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('OMAdministrationBundle:Tag')
                 ->findOneBynom($a[$c]);
-
             array_push($ltag,$tmp);
             $user->setTags($tmp);
         }
+       // dump($user->getTags());die();
+
 
         $b=json_decode($sources);
         $source =  (array) new Source();
-        for($count=0;$count<count($b);$c++){
+        //for($count=0;$count<count($b);$c++){
             $tmp = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('OMAdministrationBundle:Source')
-                ->findOneBy(array('libele'=>$b[$c]));
+                ->findOneBy(array('libele'=>$sources));
 
-            array_push($source,$tmp);
+            //array_push($source,$tmp);
             $user->setSources($tmp);
-        }
+       // }
+
+        //$user->setSources($sources);
+
 
         $user->setUsername($phone);
         $user->setEmail($phone."@gmail.com");
@@ -141,99 +192,94 @@ class RegistrationController extends BaseController
         $user->setAdress($adress);
         $user->setAdress2($adress2);
         $user->setCalltype($calltype);
-        $user->setConfirmation($confirmation);
+        if($confrdv=='true')
+        $user->setConfrdv(true);
+        else
+            $user->setConfrdv(false);
         $user->setAgent($useragent);
-        $user->setPaiement($paymentmodality);
-        $user->setPaiementmode($pmode);
-        $user->setOffre($offre);
+        $user->setPaymentmodality($pmoda);
+        $user->setPaymentmode($pmode);
+        $user->setOffre($offreuser);
         $user->setRoles(array('ROLE_PROSPECT'));
+        $confirmationrdv->setProspect($user);
+        $rdvdeprdv->setProspect($user);
+        $rdvfinrdv->setProspect($user);
+        $em->persist($rdvdeprdv);
+        $em->flush();
+        $em->persist($rdvfinrdv);
+        $em->flush();
+        $em->persist($confirmationrdv);
+        $em->flush();
+        $confirmationrdv->setProspect($user);
+        $noteuser->setProspect($user);
+        $em->persist($noteuser);
+        $em->flush();
         $userManager->updateUser($user, true);
+
 
         $response = new JsonResponse();
         $response->setData("User" );
         return $response;
 
     }
-
-
-
+//fct
     public function updaterAction(Request $request)
     {
-
+        $em = $this->getDoctrine()->getManager();
         $userManager = $this->get('fos_user.user_manager');
-        //$user = $userManager->createUser();
         $user = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->find($request->get('id'));
-      //  var_dump($request->get('id'));die();
-       // var_dump($user->getEmail());die();
-        // $confrdv = $request->get('confrdv');
+
         $phone = $request->get('phone');
+        $starcount = $request->get('starcount');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
         $phone2 = $request->get('phone2');
         $adress = $request->get('adress');
         $adress2 = $request->get('adress2');
         $offre = $request->get('offre');
-        $note = $request->get('note');
-        $rdvdep = $request->get('rdvdep');
-        $firstname = $request->get('firstname');
-        $lastname = $request->get('lastname');
-//var_dump($firstname);die();
-
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
-        $user->setRdvdep(new \DateTime($rdvdep));
-        $user->setOffre($offre);
-        $user->setNote($note);
-        $user->setAdress2($adress2);
-        $user->setAdress($adress);
-        $user->setPhone2($phone2);
-        $user->setPhone($phone);
-        $user->setRoles(array('ROLE_PROSPECT'));
-        $userManager->updateUser($user, true);
+        $paymentmodality = $request->get('paymentmodality');
+        $calltype = $request->get('calltype');
+        $paymentmode = $request->get('paymentmode');
+        //var_dump($paymentmode);die();
+        $pmode = $em->getRepository('OMAdministrationBundle:PaymentMode')
+            ->find($paymentmode);
 
 
-        $response = new JsonResponse();
-        $response->setData("User" );
-        return $response;
+        $pmoda = $em->getRepository('OMAdministrationBundle:PaymentModality')
+            ->find($paymentmodality);
 
-    }
-    /***/
-    /**
-     *
-     * @Route("/signup", name="user_register")
-     * @Method("POST")
-     * @param Request $request
-     * @return Response
-     */
-    public function registerworkerAction(Request $request)
-    {
+        $offreuser = $em->getRepository('OMAdministrationBundle:Offre')
+            ->find($offre);
 
 
-        $userManager = $this->get('fos_user.user_manager');
-        $firstname = $request->get('firstname');
-        $lastname = $request->get('lastname');
-        $email = $request->get('email');
-        $password = $request->get('password');
-        $roles=$request->get('role');
-        $user = $userManager->createUser();
-        $user->setEmail($email);
+
+
+
+        $user->setUsername($phone);
+        $user->setStarcount($starcount);
+        $user->setEmail($phone."@gmail.com");
         $user->setEnabled(true);
-        $user->setPassword($password);
-        $user->setPlainPassword($password);
+        $user->setPassword($phone);
+        $user->setPlainPassword($phone);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
+        $user->setPhone($phone);
+        $user->setPhone2($phone2);
+        $user->setAdress($adress);
+        $user->setAdress2($adress2);
+        $user->setCalltype($calltype);
+        $user->setPaymentmodality($pmoda);
+        $user->setPaymentmode($pmode);
+        $user->setOffre($offreuser);
 
-
-
-        $user->setRoles(array($roles));
         $userManager->updateUser($user, true);
-
-
         $response = new JsonResponse();
         $response->setData("User" );
         return $response;
-
     }
+
 
 
 }

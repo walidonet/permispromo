@@ -8,6 +8,8 @@
 
 namespace OM\AdministrationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 /**
  * @ORM\Table(name="note")
  * @ORM\Entity
@@ -37,9 +39,13 @@ class Note
     private $work ;
 
     /**
-     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="prospects",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="notes",cascade={"persist", "merge", "remove"})
      */
     private $prospect;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="noters",cascade={"persist", "merge", "remove"})
+     */
+    private $client;
 
     /**
      * Note constructor.
@@ -133,5 +139,22 @@ class Note
     {
         $this->prospect = $prospect;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param mixed $client
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+    }
+
 
 }

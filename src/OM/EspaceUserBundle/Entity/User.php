@@ -63,7 +63,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="boolean",nullable=true)
      */
-    private $confirmation;
+    private $confrdv;
     /**
      * @ORM\Column(type="blob",nullable=true)
      */
@@ -93,28 +93,40 @@ class User extends BaseUser
      */
     private $prospects;
     /**
-     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Tag",inversedBy="prospect",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Note", mappedBy="prospect")
+     */
+    private $notes;
+    /**
+     * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Note", mappedBy="client")
+     */
+    private $noters;
+    /**
+     * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Rdv", mappedBy="prospect")
+     */
+    private $rdvs;
+    /**
+     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Tag",inversedBy="prospect",cascade={"persist", "merge", "remove"})
      */
     private $tags;
     /**
-     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Source",inversedBy="prospect",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Source",inversedBy="prospect",cascade={"persist", "merge", "remove"})
      */
     private $sources;
 
     /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentMode", inversedBy="prospects")
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentMode", inversedBy="prospects",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumn(name="paymentmode_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
     private $paymentmode;
     /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentModality", inversedBy="prospects")
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\PaymentModality", inversedBy="prospects",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumn(name="paymentmodality_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
     private $paymentmodality;
     /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Offre", inversedBy="prospects")
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Offre", inversedBy="prospects", cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumn(name="offre_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -127,6 +139,39 @@ class User extends BaseUser
     {
         parent::__construct();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNoters()
+    {
+        return $this->noters;
+    }
+
+    /**
+     * @param mixed $noters
+     */
+    public function setNoters($noters)
+    {
+        $this->noters = $noters;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRdvs()
+    {
+        return $this->rdvs;
+    }
+
+    /**
+     * @param mixed $rdvs
+     */
+    public function setRdvs($rdvs)
+    {
+        $this->rdvs = $rdvs;
+    }
+
 
 
     /**
@@ -340,6 +385,23 @@ class User extends BaseUser
     /**
      * @return mixed
      */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param mixed $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getCalltype()
     {
         return $this->calltype;
@@ -356,18 +418,7 @@ class User extends BaseUser
     /**
      * @return mixed
      */
-    public function getConfirmation()
-    {
-        return $this->confirmation;
-    }
 
-    /**
-     * @param mixed $confirmation
-     */
-    public function setConfirmation($confirmation)
-    {
-        $this->confirmation = $confirmation;
-    }
 
     /**
      * @return mixed

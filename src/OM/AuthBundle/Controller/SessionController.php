@@ -83,12 +83,10 @@ class SessionController extends FOSRestController
      */
     public function getAllproespectAction()
     {
-        //var_dump('hello');die();
+        //var_dump('hello death');die();
         $userid = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->findAll();
-        //return $userid;
-
         $a=count($userid);
         $pro=array();
 
@@ -135,6 +133,27 @@ class SessionController extends FOSRestController
             ->find($request->get('id'));
 
         return $userid;
+    }
+    /**
+     * @Rest\Get("/api/agent")
+     */
+    public function getAllagenttAction()
+    {
+        //var_dump('hello death');die();
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->findAll();
+        $a=count($userid);
+        $pro=array();
+
+        for($i=0;$i<$a;$i++){
+
+            // if($userid[$i]->getRoles()==array('ROLE_PROSPECT')){
+            if($userid[$i]->getRoles()[0]=='ROLE_WORKER'){
+                array_push($pro,$userid[$i]);
+            }
+        }
+        return $pro;
     }
 
 

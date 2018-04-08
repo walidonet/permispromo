@@ -115,10 +115,11 @@ class PmodalityController extends FOSRestController
      */
     public function getPmodalityactiveAction()
     {
-        $restresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->findAll();
+        $restresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->findAll();
         if ($restresult === null) {
             return new View("Pas de modalité de paiement disponible", Response::HTTP_NOT_FOUND);
         }
+        //var_dump($restresult);die();
         $formatted = [];
         foreach ($restresult as $result) {
             if($result->getWork()) {
