@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SessionController extends FOSRestController
 {
@@ -78,6 +79,56 @@ class SessionController extends FOSRestController
         $reg->updaterAction($request);
 
     }
+
+    /**
+     *
+     * @Rest\POST("/api/addworker", name="add_worker")
+     * @param Request $request
+     * @return void
+     */
+    public function addworkerAction(Request $request)
+    {
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->addWorkerAction($request);
+
+    }
+
+    /**
+     *
+     * @Rest\POST("/api/addmonitor", name="add_monitor")
+     * @param Request $request
+     * @return void
+     */
+    public function addMonitorAction(Request $request)
+    {
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->addMonitorAction($request);
+
+    }
+
+    /**
+     *
+     * @Rest\POST("/api/addclient", name="add_client")
+     * @param Request $request
+     * @return void
+     */
+    public function addClientAction(Request $request)
+    {
+
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->addClientAction($request);
+
+    }
+
+
+
+
 
     /**
      * @Rest\Put("/api/converte/{id}")
