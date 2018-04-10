@@ -313,4 +313,139 @@ class RegistrationController extends BaseController
 
 
     }
+
+
+
+    //---------------------------------- add worker or supervisor -------------------------------------------- //
+
+    public function addWorkerAction(Request $request)
+    {
+
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $username = $request->get('username');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $phone = $request->get('phone');
+        $adress = $request->get('adress');
+        $email = $request->get('email');
+        $password1 = $request->get('password');
+        $password2 = $request->get('plainPassword');
+        $roles = $request->get('roles');
+
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setEnabled(true);
+        $user->setPassword($password1);
+        $user->setPlainPassword($password2);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setPhone($phone);
+        $user->setAdress($adress);
+        if ($roles == '1')
+            $user->setRoles(array('ROLE_SUPERVISOR'));
+        else
+            $user->setRoles(array('ROLE_WORKER'));
+
+
+
+        $userManager->updateUser($user, true);
+
+
+        $response = new JsonResponse();
+        $response->setData("User");
+        return $response;
+
+    }
+
+    //---------------------------------- add Monitor -------------------------------------------- //
+
+
+    public function addMonitorAction(Request $request)
+    {
+
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $username = $request->get('username');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $phone = $request->get('phone');
+        $adress = $request->get('adress');
+        $email = $request->get('email');
+        $password1 = $request->get('password');
+        $password2 = $request->get('plainPassword');
+
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setEnabled(true);
+        $user->setRoles(array('ROLE_MONITOR'));
+        $user->setPassword($password1);
+        $user->setPlainPassword($password2);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setPhone($phone);
+        $user->setAdress($adress);
+        $user->setRoles(array('ROLE_MONITOR'));
+
+        $userManager->updateUser($user, true);
+
+
+        $response = new JsonResponse();
+        $response->setData("User");
+        return $response;
+
+    }
+
+
+
+
+
+    //---------------------------------- add client -------------------------------------------- //
+
+
+    public function addClientAction(Request $request)
+    {
+
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $username = $request->get('username');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $phone = $request->get('phone');
+        $adress = $request->get('adress');
+        $email = $request->get('email');
+        $password1 = $request->get('password');
+        $password2 = $request->get('plainPassword');
+
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setEnabled(true);
+        $user->setPassword($password1);
+        $user->setPlainPassword($password2);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setPhone($phone);
+        $user->setAdress($adress);
+        $user->setRoles(array('ROLE_CLIENT'));
+
+        $userManager->updateUser($user, true);
+
+
+        $response = new JsonResponse();
+        $response->setData("User");
+        return $response;
+
+    }
+
+
+
+
+
+
 }
