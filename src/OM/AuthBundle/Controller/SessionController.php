@@ -143,10 +143,22 @@ class SessionController extends FOSRestController
      */
     public function getProespectbyIdAction(Request $request)
     {
+
         $userid = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->find($request->get('id'));
-
+        return $userid;
+    }
+    /**
+     * @Rest\Get("/api/pic/{id}", name="getpic")
+     * @return View
+     */
+    public function getPictbyIdAction(Request $request)
+    {
+//dump('piisss');die();
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->find($request->get('id'));
         return $userid;
     }
     /**
@@ -170,6 +182,7 @@ class SessionController extends FOSRestController
         }
         return $pro;
     }
+
 
 
 

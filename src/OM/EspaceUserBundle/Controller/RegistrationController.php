@@ -74,8 +74,11 @@ class RegistrationController extends BaseController
         $note = $request->get('note');
         //date
         $confirmation = $request->get('confirmation'); //date confirmation
-        $rdvdep = $request->get('confirmation'); //daterdv
-        $rdvfin = $request->get('confirmation'); //ouver jus
+        $rdvdep = $request->get('rdvdep'); //daterdv
+        $rdvfin = $request->get('$rdvfin'); //ouver jus
+        /*var_dump($confirmation);
+        var_dump($rdvfin);
+        var_dump($rdvdep);die();*/
         // confir
         $confrdv = $request->get('confrdv'); //bouton conf
 
@@ -93,31 +96,38 @@ class RegistrationController extends BaseController
 
 
         $rdvfinrdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvfin));
-        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt = new \DateTime($dt1);
-        $rdvfinrdv->setDaterdv($dt);
 
-        $rdvfinrdv->setType(2);
-        $rdvfinrdv->setDaterdv($dt);
+        if ($rdvfin != 'null' || $rdvfin == null || empty($rdvfin)) {
+            $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvfin));
+            $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+            $dt = new \DateTime($dt1);
+            $rdvfinrdv->setDaterdv($dt);
 
+            $rdvfinrdv->setType(2);
+            $rdvfinrdv->setDaterdv($dt);
+        }
         $rdvdeprdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvdep));
-        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt = new \DateTime($dt1);
-        $rdvdeprdv->setDaterdv($dt);
+        if ($rdvdep != 'null' || $rdvdep == null || empty($rdvdep)) {
 
-        $rdvdeprdv->setType(1);
-        $rdvdeprdv->setDaterdv($dt);
+            $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $rdvdep));
+            $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+            $dt = new \DateTime($dt1);
+            $rdvdeprdv->setDaterdv($dt);
 
+            $rdvdeprdv->setType(1);
+            $rdvdeprdv->setDaterdv($dt);
+        }
         $confirmationrdv = new Rdv();
-        $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $confirmation));
-        $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
-        $dt = new \DateTime($dt1);
-        $confirmationrdv->setDaterdv($dt);
+        if ($confirmation != 'null' || $confirmation == null || empty($confirmation)) {
 
-        $confirmationrdv->setType(3);
-        $confirmationrdv->setDaterdv($dt);
+            $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $confirmation));
+            $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+            $dt = new \DateTime($dt1);
+            $confirmationrdv->setDaterdv($dt);
+
+            $confirmationrdv->setType(3);
+            $confirmationrdv->setDaterdv($dt);
+        }
 
 
         $tags = $request->get('tags');
@@ -141,7 +151,9 @@ class RegistrationController extends BaseController
 
 
         $a = json_decode($tags);
-
+        // var_dump($a);
+        //var_dump($tags);die();
+        if ($tags == 'null' || $tags == null || empty($tags)) {
         $ltag = (array)new Tag();
         for ($c = 0; $c < count($a); $c++) {
 
@@ -151,6 +163,7 @@ class RegistrationController extends BaseController
             array_push($ltag, $tmp);
             $user->setTags($tmp);
         }
+    }
         // dump($user->getTags());die();
 
 
@@ -191,17 +204,23 @@ class RegistrationController extends BaseController
         $user->setPaymentmode($pmode);
         $user->setOffre($offreuser);
         $user->setRoles(array('ROLE_PROSPECT'));
-        $confirmationrdv->setProspect($user);
-        $rdvdeprdv->setProspect($user);
-        $rdvfinrdv->setProspect($user);
-        $em->persist($rdvdeprdv);
-        $em->flush();
-        $em->persist($rdvfinrdv);
-        $em->flush();
-        $em->persist($confirmationrdv);
-        $em->flush();
-        $confirmationrdv->setProspect($user);
+        if($confirmation!='null' || $confirmation == null || empty( $confirmation)) {
+            $confirmationrdv->setProspect($user);
+            $em->persist($confirmationrdv);
+            $em->flush();
+        }
+        if($rdvdep!='null' || $rdvdep == null || empty( $rdvdep)) {
+            $rdvdeprdv->setProspect($user);
+            $em->persist($rdvdeprdv);
+            $em->flush();
+        }
+        if($rdvfin!="null" || $rdvfin == null || empty( $rdvfin)) {
+            $rdvfinrdv->setProspect($user);
+            $em->persist($rdvfinrdv);
+            $em->flush();
+        }
         $noteuser->setProspect($user);
+        $noteuser->setClient($useragent);
         $em->persist($noteuser);
         $em->flush();
         $userManager->updateUser($user, true);
