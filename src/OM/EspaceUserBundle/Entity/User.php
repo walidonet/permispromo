@@ -65,7 +65,7 @@ class User extends BaseUser
      */
     private $confrdv;
     /**
-     * @ORM\Column(type="blob",nullable=true)
+     * @ORM\Column(type="string",nullable=true)
      */
     private $picture;
     /**
