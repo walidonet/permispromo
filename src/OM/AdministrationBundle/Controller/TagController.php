@@ -107,13 +107,14 @@ class TagController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("api/{id}/tag")
+     * @Rest\Put("api/{id}/tag", name="_uptag")
      * @param $id
      * @param Request $request
      * @return Response
      */
     public function updateAction($id,Request $request)
     {
+        //var_dump('to7otmos');die();
         $data = new Tag();
         $name = $request->get('nom');
         $color = $request->get('color');
@@ -140,36 +141,6 @@ class TagController extends FOSRestController
         $view = new View("Name cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
 
          return $this->handleView($view);
-        }
-    }
-    /**
-     * @Rest\Put("api/{id}/tagonoff")
-     * @param $id
-     * @param Request $request
-     * @return Response
-     */
-    public function onoffAction($id,Request $request)
-    {
-        $data = new Tag();
-        $em = $this->getDoctrine()->getManager();
-        $tag = $this->getDoctrine()->getRepository('OMAdministrationBundle:Tag')->find($id);
-        if (empty($tag)) {
-            $view = new View("Tag not found", Response::HTTP_NOT_FOUND);
-            return $this->handleView($view);
-        }
-        elseif(!empty($tag) ){
-            if($tag->getWork())
-            $tag->setWork(false);
-            else
-            $tag->setWork(true);
-            $em->flush();
-            $view =new View("Tag Updated Successfully", Response::HTTP_OK);
-            return $this->handleView($view);
-        }
-        else{
-            $view = new View("Name cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
-
-            return $this->handleView($view);
         }
     }
 

@@ -75,10 +75,10 @@ class NotificationController extends FOSRestController
 
                 $hrdv= $res->getDaterdv()->format('H:i:s');
                 if ($res->getType()== 1) {
-                    $message = 'l heure de rdv de ' . $prospect->getLastName() . ' ' . $prospect->getFirstName() . ' est à ' . $hrdv;
+                    $message = 'Date  RDV  de ' . $prospect->getLastName() . ' ' . $prospect->getFirstName() . ' est à ' . $hrdv;
                 }
                 elseif ($res->getType()== 2) {
-                    $message = 'le rdv de ' . $prospect->getLastName() . ' ' . $prospect->getFirstName() . ' est à ' . $hrdv;
+                    $message = 'Date ouvert  ' . $prospect->getLastName() . ' ' . $prospect->getFirstName() . ' est à ' . $hrdv;
                 }
                 else{
                     $message = 'l heure de confirmation de ' . $prospect->getLastName() . ' ' . $prospect->getFirstName() . ' est à ' . $hrdv;

@@ -49,11 +49,15 @@ class User extends BaseUser
      */
     private $starcount ;
     /**
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\City", inversedBy="prospect",cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumn(name="adress_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $adress = "";
     /**
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\City", inversedBy="prospects",cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumn(name="adress2_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $adress2 = "";
     /**
@@ -72,6 +76,8 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Meeting", mappedBy="client")
      */
     private $meetings;
+
+
     /**
      * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User", inversedBy="clients")
      * @ORM\JoinColumn(name="monitor_id", referencedColumnName="id")
