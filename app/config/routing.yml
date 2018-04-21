@@ -95,8 +95,15 @@ gov:
     resource: "@OMAdministrationBundle/Controller/GouverneraController.php"
     prefix:   /
     type:     rest
+
 #registration rest
 registration:
     resource: "@OMEspaceUserBundle/Controller/RegistrationController.php"
     prefix:   /
     type:     rest
+
+#sticky rest
+sticky:
+     resource: "@OMAdministrationBundle/Controller/StickyController.php"
+     prefix:   /
+     type:     rest
