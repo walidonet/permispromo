@@ -57,11 +57,15 @@ class NotificationController extends FOSRestController
 
         $temps = new \DateTime('now');
         $now = new \DateTime('now');
+        $limite = new \DateTime('now');
 
 
 
         $interval = new \DateInterval('P0Y0DT1H0M');
+        $interval2 = new \DateInterval('P0Y3DT0H0M');
         $temps->add($interval);
+
+        $limite->add($interval2);
 
         /*
         if ($temps > $now){
@@ -70,6 +74,7 @@ class NotificationController extends FOSRestController
 
         $response = array();
         foreach ($restresult as $res) {
+            if ($res->getDaterdv()<= $limite){
             $prospect = $res->getProspect();
             if ($prospect->hasRole('ROLE_PROSPECT') && ($res->getDaterdv() >= $temps)) {
 
@@ -91,7 +96,7 @@ class NotificationController extends FOSRestController
             }
             }
 
-
+        }
         return $response;
     }
 
