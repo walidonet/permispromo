@@ -112,7 +112,7 @@ class SessionController extends FOSRestController
 
     /**
      *
-     * @Rest\POST("/api/addclient", name="add_client")
+     * @Rest\Put("/api/addclient", name="add_client")
      * @param Request $request
      * @return void
      */

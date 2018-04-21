@@ -24,10 +24,10 @@ class City
      * @ORM\Column(type="string", nullable=true)
      */
     private $nom ;
-    /**
-     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist", "merge", "remove"})
-     */
-    private $prospect;
+
+    private $prospectdom;
+
+    private $prospectpro;
     /**
      * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Gouvernera", inversedBy="citys")
      * @ORM\JoinColumn(name="gouvernera_id", referencedColumnName="id")
@@ -70,20 +70,34 @@ class City
     /**
      * @return mixed
      */
-    public function getProspect()
+    public function getProspectdom()
     {
-        return $this->prospect;
+        return $this->prospectdom;
     }
 
     /**
-     * @param mixed $prospect
+     * @param mixed $prospectdom
      */
-    public function setProspect($prospect)
+    public function setProspectdom($prospectdom)
     {
-        $this->prospect = $prospect;
+        $this->prospectdom = $prospectdom;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getProspectpro()
+    {
+        return $this->prospectpro;
+    }
 
+    /**
+     * @param mixed $prospectpro
+     */
+    public function setProspectpro($prospectpro)
+    {
+        $this->prospectpro = $prospectpro;
+    }
 
     /**
      * @return mixed
@@ -100,6 +114,7 @@ class City
     {
         $this->gouvernera = $gouvernera;
     }
+
 
 
 }

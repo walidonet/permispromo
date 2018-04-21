@@ -53,13 +53,13 @@ class User extends BaseUser
      * @ORM\JoinColumn(name="adress_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $adress = "";
+    private $adress ;
     /**
      * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\City", inversedBy="prospects",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumn(name="adress2_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $adress2 = "";
+    private $adress2;
     /**
      * @ORM\Column(type="string",nullable=true)
      */
@@ -114,8 +114,11 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Tag",inversedBy="prospect",cascade={"persist", "merge", "remove"})
      */
     private $tags;
+
     /**
-     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Source",inversedBy="prospect",cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Source", inversedBy="prospect")
+     * @ORM\JoinColumn(name="source_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $sources;
 
@@ -131,8 +134,10 @@ class User extends BaseUser
      * @ORM\JoinColumn(nullable=true)
      */
     private $paymentmodality;
+
+
     /**
-     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Offre", inversedBy="prospects", cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Offre", inversedBy="prospect")
      * @ORM\JoinColumn(name="offre_id", referencedColumnName="id")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -622,7 +627,7 @@ class User extends BaseUser
      */
     public function setSources($sources)
     {
-        $this->sources[] = $sources;
+        $this->sources = $sources;
     }
 
 

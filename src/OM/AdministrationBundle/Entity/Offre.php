@@ -5,10 +5,8 @@
  * Date: 30/03/2018
  * Time: 16:13
  */
-
 namespace OM\AdministrationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Table(name="offre")
  * @ORM\Entity
@@ -37,7 +35,6 @@ class Offre
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist", "merge", "remove"})
      */
     private $prospect;
-
     /**
      * @return mixed
      */
@@ -45,7 +42,6 @@ class Offre
     {
         return $this->id;
     }
-
     /**
      * @param mixed $id
      */
@@ -53,7 +49,6 @@ class Offre
     {
         $this->id = $id;
     }
-
     /**
      * @return mixed
      */
@@ -61,7 +56,6 @@ class Offre
     {
         return $this->libele;
     }
-
     /**
      * @param mixed $libele
      */
@@ -69,7 +63,6 @@ class Offre
     {
         $this->libele = $libele;
     }
-
     /**
      * @return mixed
      */
@@ -77,7 +70,6 @@ class Offre
     {
         return $this->prix;
     }
-
     /**
      * @param mixed $prix
      */
@@ -85,7 +77,6 @@ class Offre
     {
         $this->prix = $prix;
     }
-
     /**
      * @return mixed
      */
@@ -93,7 +84,6 @@ class Offre
     {
         return $this->work;
     }
-
     /**
      * @param mixed $work
      */
@@ -101,9 +91,6 @@ class Offre
     {
         $this->work = $work;
     }
-
-
-
     /**
      * @return mixed
      */
@@ -111,7 +98,6 @@ class Offre
     {
         return $this->prospect;
     }
-
     /**
      * @param mixed $prospect
      */
@@ -119,5 +105,4 @@ class Offre
     {
         $this->prospect = $prospect;
     }
-
 }

@@ -34,7 +34,7 @@ class Rdv
 //     */
 //    private $work ;
     /**
-     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="prospects",cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="rdvs",cascade={"persist", "merge", "remove"})
      */
     private $prospect;
 

@@ -12,7 +12,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NoteController extends FOSRestController
 {
+    /**
+     * @Rest\Post("/api/notee", name="note")
+     * @param Request $request
+     * @return Response
+     */
 
+    public function postNote1Action(Request $request)
+    {
+        $nom = $request->get('texte');
+        $prospect = $request->get('agent');
+        $client = $request->get('client');
+        $restresult = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find((int)$client);
+        $restresult1 = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find((int)$prospect);
+        $noteuser = new Note();
+        $noteuser->setWork(1);
+        $noteuser->setNom($nom);
+        $noteuser->setProspect($restresult);
+        $noteuser->setClient($restresult1);
+        $noteuser->setTiming(new \DateTime('now'));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($noteuser);
+        $em->flush();
+
+    }
     /**
      * @Rest\Post("/api/note/{id}", name="note")
      * @param Request $request
@@ -22,10 +45,10 @@ class NoteController extends FOSRestController
     public function postNoteAction(Request $request, $id)
     {
 
-
         $data = new Note();
         $nom = $request->get('nom');
         $prospect = $request->get('prospect');
+        ;
 
         $data->setNom($nom);
         $data->setProspect($prospect);

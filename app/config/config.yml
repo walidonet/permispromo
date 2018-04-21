@@ -41,8 +41,6 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        types:
-            json: Sonata\Doctrine\Types\JsonType
         driver: pdo_mysql
         host: '%database_host%'
         port: '%database_port%'
@@ -84,13 +82,7 @@ fos_user:
         form:
             type: OM\EspaceUserBundle\Form\RegistrationType
 
-sonata_notification:
-    backend: sonata.notification.backend.runtime
-sonata_notification:
-    admin:
-        enabled: false
-    class:
-        message: OM\Application\Sonata\NotificationBundle\Entity\Message
+
 # FOSRest Configuration
 fos_rest:
     body_listener: true

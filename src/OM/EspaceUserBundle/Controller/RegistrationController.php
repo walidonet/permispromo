@@ -83,6 +83,12 @@ class RegistrationController extends BaseController
         $confrdv = $request->get('confrdv'); //bouton conf
 
         $agent = $request->get('agent');
+        $adressf = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMAdministrationBundle:City')
+            ->find($adress);
+        $adress2f = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMAdministrationBundle:City')
+            ->find($adress2);
         $useragent = $this->get('doctrine.orm.entity_manager')
             ->getRepository('OMEspaceUserBundle:User')
             ->find($agent);
@@ -131,7 +137,9 @@ class RegistrationController extends BaseController
 
 
         $tags = $request->get('tags');
+
         $sources = $request->get('fb');
+
 
 
         $user = $userManager->createUser();
@@ -153,10 +161,11 @@ class RegistrationController extends BaseController
         $a = json_decode($tags);
         // var_dump($a);
         //var_dump($tags);die();
-        if ($tags == 'null' || $tags == null || empty($tags)) {
+
+        if ($tags != 'null' || $tags != null || !empty($tags)) {
+
         $ltag = (array)new Tag();
         for ($c = 0; $c < count($a); $c++) {
-
             $tmp = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('OMAdministrationBundle:Tag')
                 ->findOneBynom($a[$c]);
@@ -164,21 +173,28 @@ class RegistrationController extends BaseController
             $user->setTags($tmp);
         }
     }
+
         // dump($user->getTags());die();
 
+       /* if ($sources != 'null' || $sources != null || !empty($sources)) {
+            $b = json_decode($sources);
+            $source = (array)new Source();
+            for ($count = 0; $count < count($b); $c++) {
+                $tmp = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('OMAdministrationBundle:Source')
+                    ->findOneBy(array('libele' => $sources));
 
-        $b = json_decode($sources);
-        $source = (array)new Source();
-        //for($count=0;$count<count($b);$c++){
-        $tmp = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('OMAdministrationBundle:Source')
-            ->findOneBy(array('libele' => $sources));
+                //array_push($source,$tmp);
+                $user->setSources($tmp);
+            }
+        }*/
+        if ($sources != 'null' || $sources != null || !empty($sources)) {
+            $tmp = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('OMAdministrationBundle:Source')
+                ->findOneBy(array('libele' => $sources));
+            $user->setSources($tmp);
+        }
 
-        //array_push($source,$tmp);
-        $user->setSources($tmp);
-        // }
-
-        //$user->setSources($sources);
 
 
         $user->setUsername($phone);
@@ -192,8 +208,8 @@ class RegistrationController extends BaseController
         $user->setPhone($phone);
         $user->setPhone2($phone2);
         $user->setStarcount($starcount);
-        $user->setAdress($adress);
-        $user->setAdress2($adress2);
+        $user->setAdress($adressf);
+        $user->setAdress2($adress2f);
         $user->setCalltype($calltype);
         if ($confrdv == 'true')
             $user->setConfrdv(true);
@@ -246,13 +262,13 @@ class RegistrationController extends BaseController
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
         $phone2 = $request->get('phone2');
-        $adress = $request->get('adress');
-        $adress2 = $request->get('adress2');
+
         $offre = $request->get('offre');
         $paymentmodality = $request->get('paymentmodality');
         $calltype = $request->get('calltype');
+        $starcount = $request->get('starcount');
         $paymentmode = $request->get('paymentmode');
-        //var_dump($paymentmode);die();
+        //var_dump($request->get('tags'));die();
         $pmode = $em->getRepository('OMAdministrationBundle:PaymentMode')
             ->find($paymentmode);
 
@@ -273,9 +289,8 @@ class RegistrationController extends BaseController
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
         $user->setPhone($phone);
+        $user->setStarcount($starcount);
         $user->setPhone2($phone2);
-        $user->setAdress($adress);
-        $user->setAdress2($adress2);
         $user->setCalltype($calltype);
         $user->setPaymentmodality($pmoda);
         $user->setPaymentmode($pmode);
@@ -297,13 +312,15 @@ class RegistrationController extends BaseController
             ->find($request->get('id'));
 
         $email = $request->get('email');
+        $username = $request->get('username');
         $password1 = $request->get('password');
         $password2 = $request->get('plainPassword');
 
 
         $user->setEmail($email);
+        $user->setUsername($username);
         $user->setPassword($password1);
-        $user->setPlainPassword($password2);
+        $user->setPlainPassword($password1);
         $user->setRoles(array('ROLE_CLIENT'));
 
         $userManager->updateUser($user, true);
@@ -415,10 +432,6 @@ class RegistrationController extends BaseController
         $user = $userManager->createUser();
 
         $username = $request->get('username');
-        $firstname = $request->get('firstname');
-        $lastname = $request->get('lastname');
-        $phone = $request->get('phone');
-        $adress = $request->get('adress');
         $email = $request->get('email');
         $password1 = $request->get('password');
         $password2 = $request->get('plainPassword');
@@ -428,10 +441,6 @@ class RegistrationController extends BaseController
         $user->setEnabled(true);
         $user->setPassword($password1);
         $user->setPlainPassword($password2);
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
-        $user->setPhone($phone);
-        $user->setAdress($adress);
         $user->setRoles(array('ROLE_CLIENT'));
 
         $userManager->updateUser($user, true);
@@ -442,8 +451,6 @@ class RegistrationController extends BaseController
         return $response;
 
     }
-
-
 
 
 

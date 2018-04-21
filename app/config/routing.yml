@@ -87,7 +87,14 @@ offre:
     resource: "@OMAdministrationBundle/Controller/OffreController.php"
     prefix:   /
     type:     rest
-
+city:
+    resource: "@OMAdministrationBundle/Controller/CityController.php"
+    prefix:   /
+    type:     rest
+gov:
+    resource: "@OMAdministrationBundle/Controller/GouverneraController.php"
+    prefix:   /
+    type:     rest
 #registration rest
 registration:
     resource: "@OMEspaceUserBundle/Controller/RegistrationController.php"

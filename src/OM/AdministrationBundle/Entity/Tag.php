@@ -42,7 +42,7 @@ class Tag
      */
     private $work ;
     /**
-     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Rdv",inversedBy="tags",cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="tags",cascade={"persist", "merge", "remove"})
      */
     private $prospect;
 
