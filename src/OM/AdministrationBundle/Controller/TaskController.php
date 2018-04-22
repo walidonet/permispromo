@@ -28,7 +28,18 @@ class TaskController extends FOSRestController
         $agent = $request->get('agent');
 
         $restresult = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find($agent);
+        $a = json_decode($agent);
 
+        if ($agent != 'null' || $agent != null || !empty($agent)) {
+
+            $lagent = (array)new Tag();
+            for ($c = 0; $c < count($a); $c++) {
+                $tmp = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('OMAdministrationBundle:Tag')
+                    ->findOneBynom($a[$c]);
+                $data->setAgent($tmp);
+            }
+        }
 
         $data->setLibelle($libelle);
         $data->setPriorite($priorite);

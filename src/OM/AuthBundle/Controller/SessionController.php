@@ -233,6 +233,25 @@ class SessionController extends FOSRestController
         }
         return $pro;
     }
+    /**
+     * @Rest\Get("/api/worker")
+     */
+    public function getAllworkerAction()
+    {
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->findAll();
+        $a=count($userid);
+        $pro=array();
+
+        for($i=0;$i<$a;$i++){
+
+            if($userid[$i]->getRoles()[0]=='ROLE_WORKER' || $userid[$i]->getRoles()[0]=='ROLE_SUPERVISOR'){
+                array_push($pro,$userid[$i]);
+            }
+        }
+        return $pro;
+    }
 
 
 

@@ -121,7 +121,7 @@ class Task
      */
     public function setAgent($agent)
     {
-        $this->agent = $agent;
+        $this->agent[] = $agent;
     }
 
 
