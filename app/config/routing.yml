@@ -107,3 +107,10 @@ sticky:
      resource: "@OMAdministrationBundle/Controller/StickyController.php"
      prefix:   /
      type:     rest
+
+#task rest
+task:
+     resource: "@OMAdministrationBundle/Controller/TaskController.php"
+     prefix:   /
+     type:     rest
+

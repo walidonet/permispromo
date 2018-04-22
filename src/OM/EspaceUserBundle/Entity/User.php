@@ -145,6 +145,11 @@ class User extends BaseUser
     private $offre;
 
     /**
+     * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Task",inversedBy="agent",cascade={"persist", "merge", "remove"})
+     */
+    private $tasks;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -666,6 +671,22 @@ class User extends BaseUser
     public function setPaymentmodality($paymentmodality)
     {
         $this->paymentmodality = $paymentmodality;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param mixed $tasks
+     */
+    public function setTasks($tasks)
+    {
+        $this->tasks = $tasks;
     }
 
 
