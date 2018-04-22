@@ -32,19 +32,26 @@ class TaskController extends FOSRestController
 
         if ($agent != 'null' || $agent != null || !empty($agent)) {
 
-            $lagent = (array)new Tag();
+            $lagent = (array)new Task();
             for ($c = 0; $c < count($a); $c++) {
                 $tmp = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('OMAdministrationBundle:Tag')
-                    ->findOneBynom($a[$c]);
+                    ->getRepository('OMEspaceUserBundle:User')
+                    ->findOneBy(array('username' => $a[$c]));
+               // var_dump($tmp);die();
                 $data->setAgent($tmp);
             }
+        }
+        if ($deadline != 'null' || $deadline != null || !empty($deadline)) {
+
+            $timestamp = strtotime(preg_replace('/( \(.*)$/', '', $deadline));
+            $dt1 = date('Y-m-d H:i:s \G\M\TP', $timestamp);
+            $dt = new \DateTime($dt1);
         }
 
         $data->setLibelle($libelle);
         $data->setPriorite($priorite);
-        $data->setDeadline($deadline);
-        $data->setAgent($restresult);
+        $data->setDeadline($dt);
+        //$data->setAgent($restresult);
 
 
         $em = $this->getDoctrine()->getManager();

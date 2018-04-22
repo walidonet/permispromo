@@ -167,8 +167,8 @@ class RegistrationController extends BaseController
         $ltag = (array)new Tag();
         for ($c = 0; $c < count($a); $c++) {
             $tmp = $this->get('doctrine.orm.entity_manager')
-                ->getRepository('OMEspaceUserBundle:User')
-                ->findOneByusername($a[$c]);
+                ->getRepository('OMAdministrationBundle:Tag')
+                ->findOneBynom($a[$c]);
             array_push($ltag, $tmp);
             $user->setTags($tmp);
         }
