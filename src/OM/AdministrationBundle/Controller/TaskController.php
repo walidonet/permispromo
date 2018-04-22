@@ -3,6 +3,7 @@
 namespace OM\AdministrationBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use OM\AdministrationBundle\Entity\Task;
 use Symfony\Component\HttpFoundation\JsonResponse;
