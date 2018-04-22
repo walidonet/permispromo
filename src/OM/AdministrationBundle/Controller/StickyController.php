@@ -70,18 +70,19 @@ class StickyController extends FOSRestController
      * @param Request $request
      * @return Response
      */
-    public function updateStickyAction($id,Request $request)
+    public function updateStickyAction(Request $request)
     {
         $sticky = new StickyNotes();
-        $notes = $request->get('note');
-        $agent = $request->get('agent');
+        $id = $request->get('id');
+        $notes = $request->get('notes');
+        //$agent = $request->get('agent');
         $em = $this->getDoctrine()->getManager();
         $sticky = $this->getDoctrine()->getRepository('OMAdministrationBundle:StickyNotes')->find($id);
         if (empty($sticky)) {
             $view = new View("sticky not found", Response::HTTP_NOT_FOUND);
             return $this->handleView($view);
         }
-        elseif(!empty($notes) && !empty($agent)){
+        elseif(!empty($notes) ){
             $sticky->setNotes($notes);
             $em->flush();
             $view =new View("sticky Updated Successfully", Response::HTTP_OK);
@@ -107,14 +108,31 @@ class StickyController extends FOSRestController
         }
         return $singleresult;
     }
+    /**
+     * @Rest\Get("api/{id}/sticky")
+     * @param Request $request
+     * @return Response
+     */
+    public function getmySnoteAction(Request $request)
+    {
+        $id  = $request->get('id');
+        $agent = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find($id);
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:StickyNotes')
+            ->findBy(array('agent'=>$agent));
+        if ($singleresult === null) {
+            return new View("Sticky note not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
 
     /**
      * @Rest\Delete("api/{id}/sticky")
-     * @param $id
+     * @param Request $request
      * @return Response
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request)
     {
+        $id  = $request->get('id');
         $data = new StickyNotes();
         $em = $this->getDoctrine()->getManager();
         $note = $this->getDoctrine()->getRepository('OMAdministrationBundle:StickyNotes')->find($id);
@@ -123,6 +141,7 @@ class StickyController extends FOSRestController
             return $this->handleView($view);
         }
         else {
+            $note->setAgent(null);
             $em->remove($note);
             $em->flush();
         }

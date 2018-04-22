@@ -98,6 +98,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="OM\EspaceUserBundle\Entity\User", mappedBy="agent")
      */
     private $prospects;
+
     /**
      * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Note", mappedBy="prospect")
      */
@@ -328,6 +329,9 @@ class User extends BaseUser
     {
         $this->clients = $clients;
     }
+
+
+
 
     /**
      * @return mixed
