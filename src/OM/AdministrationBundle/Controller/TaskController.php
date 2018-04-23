@@ -101,17 +101,24 @@ class TaskController extends FOSRestController
     {
         $id  = $request->get('id');
         $agent = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find($id);
-        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Task')
-            ->findBy(array('agent'=>$agent));
-        if ($singleresult === null) {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Task');
+            $query = $singleresult->createQueryBuilder('u')
+                ->innerJoin('u.agent', 'g')
+                ->where('g.id = :task_id')
+                ->setParameter('task_id', $agent)
+                ->getQuery()->getResult();
+            //->findBy(array('agent'=>$agent));
+
+        if ($query === null) {
             return new View("Task not found", Response::HTTP_NOT_FOUND);
         }
 
-        usort($singleresult, array($this, "cmp"));
+        usort($query, array($this, "cmp"));
+        //dump($query);die();
 
 
 
-        return $singleresult;
+        return $query;
     }
 
 
