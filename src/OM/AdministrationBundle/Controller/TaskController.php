@@ -87,6 +87,35 @@ class TaskController extends FOSRestController
         return new JsonResponse($formatted);
     }
 
+    public function cmp($a, $b)
+    {
+        return ($a->getDeadline() > $b->getDeadline());
+    }
+
+    /**
+     * @Rest\Get("api/{id}/tasks")
+     * @param Request $request
+     * @return array|View|\OM\AdministrationBundle\Entity\StickyNotes[]|Task[]
+     */
+    public function getMyTaskAction(Request $request)
+    {
+        $id  = $request->get('id');
+        $agent = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')->find($id);
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Task')
+            ->findBy(array('agent'=>$agent));
+        if ($singleresult === null) {
+            return new View("Task not found", Response::HTTP_NOT_FOUND);
+        }
+
+        usort($singleresult, array($this, "cmp"));
+
+
+
+        return $singleresult;
+    }
+
+
+
     /**
      * @Rest\Put("api/{id}/task")
      * @param $id
