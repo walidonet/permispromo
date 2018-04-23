@@ -248,7 +248,8 @@ class RegistrationController extends BaseController
 
     }
 
-//fct
+//---------------------------------- updater -------------------------------------------- //
+
     public function updaterAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -261,6 +262,7 @@ class RegistrationController extends BaseController
         $starcount = $request->get('starcount');
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
+        $cin = $request->get('cin');
         $phone2 = $request->get('phone2');
 
         $offre = $request->get('offre');
@@ -288,6 +290,7 @@ class RegistrationController extends BaseController
         $user->setPlainPassword($phone);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
+        $user->setCin($cin);
         $user->setPhone($phone);
         $user->setStarcount($starcount);
         $user->setPhone2($phone2);
@@ -302,6 +305,7 @@ class RegistrationController extends BaseController
         return $response;
     }
 
+    //---------------------------------- Convert to client -------------------------------------------- //
 
     public function converterAction(Request $request)
     {
@@ -345,6 +349,7 @@ class RegistrationController extends BaseController
         $username = $request->get('username');
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
+        $cin = $request->get('cin');
         $phone = $request->get('phone');
         $adress = $request->get('adress');
         $email = $request->get('email');
@@ -359,6 +364,7 @@ class RegistrationController extends BaseController
         $user->setPlainPassword($password2);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
+        $user->setCin($cin);
         $user->setPhone($phone);
         $user->setAdress($adress);
         if ($roles == '1')
@@ -432,12 +438,31 @@ class RegistrationController extends BaseController
         $user = $userManager->createUser();
 
         $username = $request->get('username');
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $phone = $request->get('phone');
+        $adress = $request->get('adress');
+        $cin = $request->get('cin');
         $email = $request->get('email');
         $password1 = $request->get('password');
         $password2 = $request->get('plainPassword');
 
         $user->setUsername($username);
+
+        if ($email){
         $user->setEmail($email);
+        }
+        else{
+
+            $user->setEmail($phone.'@gmail.com');
+        }
+
+
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setCin($cin);
+        $user->setPhone($phone);
+        $user->setAdress($adress);
         $user->setEnabled(true);
         $user->setPassword($password1);
         $user->setPlainPassword($password2);

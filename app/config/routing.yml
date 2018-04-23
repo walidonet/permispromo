@@ -114,3 +114,9 @@ task:
      prefix:   /
      type:     rest
 
+#affect rest
+afectation_client:
+     resource: "@OMEspaceUserBundle/Controller/UserController.php"
+     prefix:   /
+     type:     rest
+

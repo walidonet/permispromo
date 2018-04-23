@@ -39,6 +39,10 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="string",nullable=true)
      */
+    private $cin = "";
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
     private $phone = "";
     /**
      * @ORM\Column(type="string",nullable=true)
@@ -254,6 +258,24 @@ class User extends BaseUser
     {
         $this->lastname = $lastname;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCin()
+    {
+        return $this->cin;
+    }
+
+    /**
+     * @param mixed $cin
+     */
+    public function setCin($cin)
+    {
+        $this->cin = $cin;
+    }
+
+
 
     /**
      * @return mixed
