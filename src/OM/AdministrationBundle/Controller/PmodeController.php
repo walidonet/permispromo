@@ -15,12 +15,12 @@ class PmodeController extends FOSRestController
 {
 
     /**
-     * @Rest\Post("/api/pmode/{id}", name="pmode")
+     * @Rest\Post("/api/pmode", name="pmode")
      * @param Request $request
      * @return Response
      */
 
-    public function postPmodeAction(Request $request, $id)
+    public function postPmodeAction(Request $request)
     {
 
 
@@ -28,6 +28,7 @@ class PmodeController extends FOSRestController
         $libele = $request->get('libele');
 
         $data->setLibele($libele);
+        $data->setWork(true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($data);
@@ -56,7 +57,7 @@ class PmodeController extends FOSRestController
             ];
         }
 
-        return new JsonResponse($formatted);
+        return $restresult;
     }
 
     /**
@@ -69,6 +70,7 @@ class PmodeController extends FOSRestController
     {
         $data = new PaymentMode();
         $libele = $request->get('libele');
+        $work = $request->get('work');
         $em = $this->getDoctrine()->getManager();
         $pmode = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->find($id);
         if (empty($pmode)) {
@@ -76,6 +78,11 @@ class PmodeController extends FOSRestController
             return $this->handleView($view);
         }
         elseif(!empty($libele) ){
+            if($work =='true'){
+                $pmode->setWork(true);
+            }else{
+                $pmode->setWork(false);
+            }
             $pmode->setLibele($libele);
             $em->flush();
             $view =new View("payement mode Updated Successfully", Response::HTTP_OK);

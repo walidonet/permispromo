@@ -15,12 +15,12 @@ class SourceController extends FOSRestController
 
 
     /**
-     * @Rest\Post("/api/source/{id}", name="source")
+     * @Rest\Post("/api/source", name="source")
      * @param Request $request
      * @return Response
      */
 
-    public function postTagAction(Request $request, $id)
+    public function postTagAction(Request $request)
     {
 
 
@@ -28,6 +28,7 @@ class SourceController extends FOSRestController
         $libele = $request->get('libele');
 
         $data->setLibele($libele);
+        $data->setWork(true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($data);
@@ -50,7 +51,7 @@ class SourceController extends FOSRestController
             return new View("Pas de source disponible", Response::HTTP_NOT_FOUND);
         }
         $formatted = [];
-        foreach ($restresult as $result) {
+        /*foreach ($restresult as $result) {
             $formatted[] = [
 
                 'libele' => $result->getLibele(),
@@ -58,7 +59,8 @@ class SourceController extends FOSRestController
             ];
         }
 
-        return new JsonResponse($formatted);
+        return new JsonResponse($formatted);*/
+        return $restresult;
     }
 
     /**
@@ -71,6 +73,13 @@ class SourceController extends FOSRestController
     {
         $data = new Source();
         $libele = $request->get('libele');
+        $work = $request->get('work');
+        if($work == "true"){
+            $working = true;
+        }
+        else{
+            $working = false;
+        }
         $em = $this->getDoctrine()->getManager();
         $source = $this->getDoctrine()->getRepository('OMAdministrationBundle:Source')->find($id);
         if (empty($source)) {
@@ -79,6 +88,7 @@ class SourceController extends FOSRestController
         }
         elseif(!empty($libele) ){
             $source->setLibele($libele);
+            $source->setWork($working);
             $em->flush();
             $view =new View("source Updated Successfully", Response::HTTP_OK);
             return $this->handleView($view);

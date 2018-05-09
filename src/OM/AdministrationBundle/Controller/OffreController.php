@@ -89,7 +89,7 @@ class OffreController extends FOSRestController
         }
         elseif(!empty($offre) ){
             $offre->setLibele($libele);
-            $offre->setColor($prix);
+            $offre->setPrix($prix);
             if($work=="true")
                 $offre->setWork(true);
             else

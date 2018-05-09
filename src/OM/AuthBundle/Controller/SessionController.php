@@ -112,7 +112,7 @@ class SessionController extends FOSRestController
 
     /**
      *
-     * @Rest\Put("/api/addclient", name="add_client")
+     * @Rest\Post("/api/addclient", name="add_client")
      * @param Request $request
      * @return void
      */
@@ -160,6 +160,27 @@ class SessionController extends FOSRestController
 
            // if($userid[$i]->getRoles()==array('ROLE_PROSPECT')){
             if($userid[$i]->getRoles()[0]=='ROLE_PROSPECT'){
+                array_push($pro,$userid[$i]);
+            }
+        }
+        return $pro;
+    }
+    /**
+     * @Rest\Get("/api/affectedclient")
+     */
+    public function getAffectedClientAction()
+    {
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->findAll();
+        $a=count($userid);
+        $pro=array();
+
+        for($i=0;$i<$a;$i++){
+
+            if($userid[$i]->getRoles()[0]=='ROLE_CLIENT' &&
+                !empty($userid[$i]->getMonitor())
+            ){
                 array_push($pro,$userid[$i]);
             }
         }
@@ -247,6 +268,25 @@ class SessionController extends FOSRestController
         for($i=0;$i<$a;$i++){
 
             if($userid[$i]->getRoles()[0]=='ROLE_WORKER' || $userid[$i]->getRoles()[0]=='ROLE_SUPERVISOR'){
+                array_push($pro,$userid[$i]);
+            }
+        }
+        return $pro;
+    }
+    /**
+     * @Rest\Get("/api/client")
+     */
+    public function getAllclientAction()
+    {
+        $userid = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->findAll();
+        $a=count($userid);
+        $pro=array();
+
+        for($i=0;$i<$a;$i++){
+
+            if($userid[$i]->getRoles()[0]=='ROLE_CLIENT'){
                 array_push($pro,$userid[$i]);
             }
         }

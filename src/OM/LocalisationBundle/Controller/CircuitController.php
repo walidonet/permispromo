@@ -8,16 +8,15 @@
 
 namespace OM\LocalisationBundle\Controller;
 
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
-use OM\LocalisationBundle\Entity\Circuit;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\Annotations as Rest;
 
 
 
-class CircuitController extends Controller
+class CircuitController extends FOSRestController
 {
 
     /**
@@ -49,7 +48,7 @@ class CircuitController extends Controller
     }
 
     /**
-     * @Rest\Get("/circuit", name="_allcircuits")
+     * @Rest\Get("/api/circuit", name="_allcircuits")
      */
     public function getAction()
     {

@@ -50,6 +50,11 @@ circuit:
     resource: "@OMLocalisationBundle/Controller/CircuitController.php"
     prefix:   /
     type:     rest
+#follow rest
+follow:
+    resource: "@OMLocalisationBundle/Controller/FollowController.php"
+    prefix:   /
+    type:     rest
 
 #source rest
 source:
@@ -65,8 +70,13 @@ note:
     type:     rest
 
 #rdv rest
-rdv:
+contract:
     resource: "@OMAdministrationBundle/Controller/RdvController.php"
+    prefix:   /
+    type:     rest
+#contrat rest
+rdv:
+    resource: "@OMAdministrationBundle/Controller/ContractController.php"
     prefix:   /
     type:     rest
 
@@ -85,6 +95,11 @@ pmode:
 #offre rest
 offre:
     resource: "@OMAdministrationBundle/Controller/OffreController.php"
+    prefix:   /
+    type:     rest
+#meeting rest
+meeting:
+    resource: "@OMAdministrationBundle/Controller/MeetingController.php"
     prefix:   /
     type:     rest
 city:

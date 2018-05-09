@@ -14,12 +14,12 @@ class PmodalityController extends FOSRestController
 {
 
     /**
-     * @Rest\Post("/api/pmodality/{id}", name="pmodality")
+     * @Rest\Post("/api/pmodality", name="pmodality")
      * @param Request $request
      * @return Response
      */
 
-    public function postPmodalityAction(Request $request, $id)
+    public function postPmodalityAction(Request $request)
     {
 
 
@@ -27,6 +27,7 @@ class PmodalityController extends FOSRestController
         $libele = $request->get('libele');
 
         $data->setLibele($libele);
+        $data->setWork(true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($data);
@@ -55,7 +56,7 @@ class PmodalityController extends FOSRestController
             ];
         }
 
-        return new JsonResponse($formatted);
+        return $restresult;
     }
 
     /**
@@ -68,6 +69,7 @@ class PmodalityController extends FOSRestController
     {
         $data = new PaymentModality();
         $libele = $request->get('libele');
+        $work = $request->get('work');
         $em = $this->getDoctrine()->getManager();
         $pmodality = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->find($id);
         if (empty($pmodality)) {
@@ -76,6 +78,12 @@ class PmodalityController extends FOSRestController
         }
         elseif(!empty($libele) ){
             $pmodality->setLibele($libele);
+            if($work=='true'){
+                $pmodality->setWork(true);
+            }
+            else{
+                $pmodality->setWork(false);
+            }
             $em->flush();
             $view =new View("payement modality Updated Successfully", Response::HTTP_OK);
             return $this->handleView($view);
