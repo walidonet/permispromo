@@ -436,17 +436,56 @@ class RegistrationController extends BaseController
 
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->createUser();
-
+        $em = $this->getDoctrine()->getManager();
         $username = $request->get('username');
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
         $phone = $request->get('phone');
-        $adress = $request->get('adress');
+        $phone2 = $request->get('phone2');
         $cin = $request->get('cin');
         $email = $request->get('email');
-        $password1 = $request->get('password');
-        $password2 = $request->get('plainPassword');
+        //$password1 = $request->get('password');
+        //$password2 = $request->get('plainPassword');
 
+        /*
+         * modif jony
+         */
+        $agent = $request->get('agent');
+        $adress = $request->get('adress');
+        $adress2 = $request->get('adress2');
+        $adressf = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMAdministrationBundle:City')
+            ->find($adress);
+        $adress2f = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMAdministrationBundle:City')
+            ->find($adress2);
+        $useragent = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('OMEspaceUserBundle:User')
+            ->find($agent);
+        $note = $request->get('note');
+        $noteuser = new Note();
+        $noteuser->setWork(1);
+        $noteuser->setNom($note);
+
+        $noteuser->setTiming(new \DateTime('now'));
+        $paymentmode = $request->get('paiementmode');
+        $pmode = $em->getRepository('OMAdministrationBundle:PaymentMode')
+            ->find($paymentmode);
+
+        $paymentmodality = $request->get('paiement');
+        $pmoda = $em->getRepository('OMAdministrationBundle:PaymentModality')
+            ->find($paymentmodality);
+
+        $offre = $request->get('offre');
+        $offreuser = $em->getRepository('OMAdministrationBundle:Offre')
+            ->find($offre);
+        $sources = $request->get('fb');
+        if ($sources != 'null' || $sources != null || !empty($sources)) {
+            $tmp = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('OMAdministrationBundle:Source')
+                ->findOneBy(array('libele' => $sources));
+            $user->setSources($tmp);
+        }
         $user->setUsername($username);
 
         if ($email){
@@ -461,13 +500,20 @@ class RegistrationController extends BaseController
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
         $user->setCin($cin);
+        $user->setUsername($cin);
         $user->setPhone($phone);
+        $user->setPhone2($phone2);
         $user->setAdress($adress);
         $user->setEnabled(true);
-        $user->setPassword($password1);
-        $user->setPlainPassword($password2);
+        $user->setPassword($phone);
+        $user->setPlainPassword($phone);
         $user->setRoles(array('ROLE_CLIENT'));
-
+        $user->setAdress($adressf);
+        $user->setAdress2($adress2f);
+        $user->setAgent($useragent);
+        $user->setPaymentmodality($pmoda);
+        $user->setPaymentmode($pmode);
+        $user->setOffre($offreuser);
         $userManager->updateUser($user, true);
 
 
