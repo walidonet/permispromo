@@ -188,6 +188,19 @@ class PmodalityController extends FOSRestController
         return $singleresult;
     }
 
+    /**
+     * @Rest\Get("api/modalityon")
+     * @return View|object|PaymentModality
+     */
+    public function getOnModalityByIdAction()
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->findBy(array('work'=> true));
+        if ($singleresult === null) {
+            return new View("modality not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
 
 
 }

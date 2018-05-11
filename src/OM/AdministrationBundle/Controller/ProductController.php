@@ -206,5 +206,23 @@ class ProductController extends FOSRestController
         return $singleresult;
     }
 
+    /**
+     * @Rest\Get("api/producton")
+     * @return View|object|Product
+     */
+    public function getOnProductByIdAction()
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Product')->findBy(array('work'=> true));
+        if ($singleresult === null) {
+            return new View("product not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
+
+
+
+
+
 
 }
