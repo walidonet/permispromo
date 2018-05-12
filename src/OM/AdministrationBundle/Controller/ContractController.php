@@ -5,6 +5,7 @@ namespace OM\AdministrationBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
+use OM\AdministrationBundle\Entity\Contract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,19 +24,14 @@ class ContractController extends FOSRestController
     public function postOffreAction(Request $request)
     {
 
-        $data = new Offre();
-        $libele = $request->get('libele');
-        $prix = $request->get('prix');
-        $work = $request->get('work');
+        $data = new Contract();
+        $nom = $request->get('nom');
+        $valeur = $request->get('valeur');
 
 
-        $data->setLibele($libele);
-        $data->setPrix($prix);
-        if($work=="true"){
-            $data->setWork(true);
-        }else{
-            $data->setWork(false);
-        }
+        $data->setNom($nom);
+        $data->setValeur($valeur);
+        $data->setWork(true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($data);
@@ -59,17 +55,18 @@ class ContractController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("api/{id}/contract")
-     * @param $id
+     * @Rest\Put("api/{id}/contract", name="_putcontract")
      * @param Request $request
      * @return Response
      */
     public function updateAction(Request $request)
     {
-        $data = new Offre();
+        $data = new Contract();
+        /*$nom = $request->get('nom');
+        $valeur = $request->get('valeur');*/
         $id = $request->get('id');
         $libele = $request->get('nom');
-        $prix = $request->get('value');
+        $prix = $request->get('valeur');
         $work= $request->get('work');
         $em = $this->getDoctrine()->getManager();
         $offre = $this->getDoctrine()->getRepository('OMAdministrationBundle:Contract')->find($id);
