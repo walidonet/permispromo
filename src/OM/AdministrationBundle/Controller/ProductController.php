@@ -102,7 +102,6 @@ class ProductController extends FOSRestController
      */
     public function updateAction($id,Request $request)
     {
-        $data = new Product();
         $libelle = $request->get('libelle');
         $work = $request->get('work');
         $mode = $request->get('mode');
@@ -112,16 +111,16 @@ class ProductController extends FOSRestController
 
 
         $em = $this->getDoctrine()->getManager();
-        $product = $this->getDoctrine()->getRepository('OMAdministrationBundle:Product')->find($id);
+        $data = $this->getDoctrine()->getRepository('OMAdministrationBundle:Product')->find($id);
         $modee = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->find($mode);
         $offree = $this->getDoctrine()->getRepository('OMAdministrationBundle:Offre')->find($offre);
         $modalitye =$this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->find($modality);
         $contracte = $this->getDoctrine()->getRepository('OMAdministrationBundle:Contract')->find($contract);
-        if (empty($product)) {
+        if (empty($data)) {
             $view = new View("Product not found", Response::HTTP_NOT_FOUND);
             return $this->handleView($view);
         }
-        elseif(!empty($product) ){
+        elseif(!empty($data) ){
             $data->setLibelle($libelle);
             if($work=="true"){
                 $data->setWork(true);
