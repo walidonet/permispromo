@@ -187,6 +187,19 @@ class PmodeController extends FOSRestController
         return $singleresult;
     }
 
+    /**
+     * @Rest\Get("api/modeon")
+     * @return View|object|PaymentMode
+     */
+    public function getOnModeByIdAction()
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->findBy(array('work'=> true));
+        if ($singleresult === null) {
+            return new View("mode not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
 
 
 }
