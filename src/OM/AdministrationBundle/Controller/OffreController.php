@@ -200,4 +200,17 @@ class OffreController extends FOSRestController
         return $singleresult;
     }
 
+    /**
+     * @Rest\Get("api/offre")
+     * @return View|object|Offre
+     */
+    public function getOnOffreByIdAction()
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Offre')->findBy(array('work'=> true));
+        if ($singleresult === null) {
+            return new View("offre not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
 }

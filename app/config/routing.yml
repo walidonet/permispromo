@@ -140,3 +140,9 @@ product:
      resource: "@OMAdministrationBundle/Controller/ProductController.php"
      prefix:   /
      type:     rest
+
+#access rest
+access:
+    resource: "@OMAdministrationBundle/Controller/AccessController.php"
+    prefix:   /
+    type: rest

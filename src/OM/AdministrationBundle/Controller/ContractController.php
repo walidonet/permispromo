@@ -5,6 +5,7 @@ namespace OM\AdministrationBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
+use OM\AdministrationBundle\Entity\Contract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -113,6 +114,19 @@ class ContractController extends FOSRestController
         $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Contract')->find($id);
         if ($singleresult === null) {
             return new View("offre not found", Response::HTTP_NOT_FOUND);
+        }
+        return $singleresult;
+    }
+
+    /**
+     * @Rest\Get("api/contract")
+     * @return View|object|Contract
+     */
+    public function getOnContractByIdAction()
+    {
+        $singleresult = $this->getDoctrine()->getRepository('OMAdministrationBundle:Contract')->findBy(array('work'=> true));
+        if ($singleresult === null) {
+            return new View("contract not found", Response::HTTP_NOT_FOUND);
         }
         return $singleresult;
     }

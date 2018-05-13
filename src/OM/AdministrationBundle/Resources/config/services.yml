@@ -2,3 +2,8 @@ services:
 #    om_administration.example:
 #        class: OM\AdministrationBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+services:
+    OMAdministrationBundle\Listener\RdvListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
