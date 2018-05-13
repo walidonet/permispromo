@@ -110,10 +110,13 @@ class ProductController extends FOSRestController
         $offre = $request->get('offre');
         $contract = $request->get('contract');
 
-        $em= $this->getDoctrine()->getManager();
 
         $em = $this->getDoctrine()->getManager();
         $product = $this->getDoctrine()->getRepository('OMAdministrationBundle:Product')->find($id);
+        $modee = $this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentMode')->find($mode);
+        $offree = $this->getDoctrine()->getRepository('OMAdministrationBundle:Offre')->find($offre);
+        $modalitye =$this->getDoctrine()->getRepository('OMAdministrationBundle:PaymentModality')->find($modality);
+        $contracte = $this->getDoctrine()->getRepository('OMAdministrationBundle:Contract')->find($contract);
         if (empty($product)) {
             $view = new View("Product not found", Response::HTTP_NOT_FOUND);
             return $this->handleView($view);
@@ -125,11 +128,11 @@ class ProductController extends FOSRestController
             }else{
                 $data->setWork(false);
             }
-            $data->setMode($mode);
-            $data->setModality($modality);
-            $data->setOffre($offre);
-            $data->setContract($contract);
-
+            $data->setMode($modee);
+            $data->setModality($modalitye);
+            $data->setOffre($offree);
+            $data->setContract($contracte);
+            $em->persist($data);
             $em->flush();
             $view =new View("Product Updated Successfully", Response::HTTP_OK);
             return $this->handleView($view);
