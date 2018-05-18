@@ -36,6 +36,12 @@ class Meeting
      * @ORM\Column(type="time")
      */
     private $end;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $etat ;
+
     /**
      * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User", inversedBy="meetings")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
@@ -106,6 +112,23 @@ class Meeting
     {
         $this->end = $end;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param mixed $etat
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+    }
+
 
     /**
      * @return mixed
