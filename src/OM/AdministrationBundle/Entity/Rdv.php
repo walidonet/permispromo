@@ -29,6 +29,12 @@ class Rdv
      * @ORM\Column(type="datetime",nullable=true)
      */
     private $daterdv ;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $etat ;
+
 //    /**
 //     * @ORM\Column(type="boolean", nullable=true)
 //     */
@@ -84,6 +90,22 @@ class Rdv
     public function setDaterdv($daterdv)
     {
         $this->daterdv = $daterdv;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param mixed $etat
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
     }
 
 //    /**
