@@ -147,11 +147,38 @@ class User extends BaseUser
      * @ORM\JoinColumn(nullable=true)
      */
     private $offre;
+    /**
+     * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Product", inversedBy="client")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $product;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image1;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image2;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image3;
 
     /**
      * @ORM\ManyToMany(targetEntity="OM\AdministrationBundle\Entity\Task",inversedBy="agent",cascade={"persist", "merge", "remove"})
      */
     private $tasks;
+    /**
+     * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Folder", mappedBy="client")
+     */
+    protected $folder;
 
     /**
      * User constructor.
@@ -709,6 +736,86 @@ class User extends BaseUser
     public function setTasks($tasks)
     {
         $this->tasks = $tasks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFolder()
+    {
+        return $this->folder;
+    }
+
+    /**
+     * @param mixed $folder
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param mixed $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage1()
+    {
+        return $this->image1;
+    }
+
+    /**
+     * @param string $image1
+     */
+    public function setImage1($image1)
+    {
+        $this->image1 = $image1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage2()
+    {
+        return $this->image2;
+    }
+
+    /**
+     * @param string $image2
+     */
+    public function setImage2($image2)
+    {
+        $this->image2 = $image2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage3()
+    {
+        return $this->image3;
+    }
+
+    /**
+     * @param string $image3
+     */
+    public function setImage3($image3)
+    {
+        $this->image3 = $image3;
     }
 
 

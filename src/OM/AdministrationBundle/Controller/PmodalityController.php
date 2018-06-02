@@ -60,7 +60,7 @@ class PmodalityController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("api/{id}/pmodality")
+     * @Rest\Put("api/{id}/pmodality", name ="_upmoda")
      * @param $id
      * @param Request $request
      * @return Response

@@ -85,6 +85,11 @@ pmodality:
     resource: "@OMAdministrationBundle/Controller/PmodalityController.php"
     prefix:   /
     type:     rest
+#session
+sessionse:
+    resource: "@OMAdministrationBundle/Controller/SessionController.php"
+    prefix:   /
+    type:     rest
 
 #mode de paiement rest
 pmode:
@@ -126,6 +131,16 @@ sticky:
 #task rest
 task:
      resource: "@OMAdministrationBundle/Controller/TaskController.php"
+     prefix:   /
+     type:     rest
+#tranche rest
+tranche:
+     resource: "@OMAdministrationBundle/Controller/TrancheController.php"
+     prefix:   /
+     type:     rest
+#folder rest
+folder:
+     resource: "@OMAdministrationBundle/Controller/FolderController.php"
      prefix:   /
      type:     rest
 

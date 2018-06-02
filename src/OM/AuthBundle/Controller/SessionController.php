@@ -79,6 +79,19 @@ class SessionController extends FOSRestController
         $reg->updaterAction($request);
 
     }
+    /**
+     * @Rest\Put("/api/clientup/{id}")
+     * @param Request $request
+     * @return void
+     */
+    public function clientUPAction(Request $request)
+    {
+
+
+        $reg = new RegistrationController( $this->container);
+        $reg->updateclient($request);
+
+    }
 
     /**
      *

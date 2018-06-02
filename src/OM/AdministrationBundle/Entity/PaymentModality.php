@@ -32,6 +32,10 @@ class PaymentModality
      * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist", "merge", "remove"})
      */
     private $prospect;
+    /**
+     * @ORM\OneToMany(targetEntity="OM\AdministrationBundle\Entity\Tranche", mappedBy="paymentmodal")
+     */
+    protected $tranches;
 
     /**
      * @return mixed
@@ -98,5 +102,22 @@ class PaymentModality
     {
         $this->prospect = $prospect;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTranches()
+    {
+        return $this->tranches;
+    }
+
+    /**
+     * @param mixed $tranches
+     */
+    public function setTranches($tranches)
+    {
+        $this->tranches = $tranches;
+    }
+
 
 }

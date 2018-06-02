@@ -523,7 +523,24 @@ class RegistrationController extends BaseController
 
     }
 
+    //---------------------------------- update client -------------------------------------------- //
 
-
-
+    public  function updateclient(Request $request){
+        $firstname = $request->get('firstname');
+        $lastname = $request->get('lastname');
+        $phone = $request->get('phone');
+        $phone2 = $request->get('phone2');
+        $id = $request->get('id');
+        $user = $this->getDoctrine()->getRepository('OMEspaceUserBundle:User')
+            ->find($id);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setPhone($phone);
+        $user->setPhone2($phone2);
+        $userManager = $this->get('fos_user.user_manager');
+        $userManager->updateUser($user, true);
+        $response = new JsonResponse();
+        $response->setData("User");
+        return $response;
+    }
 }

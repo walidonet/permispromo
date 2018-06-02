@@ -60,6 +60,10 @@ class Product
      * @ORM\ManyToOne(targetEntity="OM\AdministrationBundle\Entity\Contract", inversedBy="contract",cascade={"persist", "remove"})
      */
     private $contract;
+    /**
+     * @ORM\ManyToMany(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="sources",cascade={"persist", "merge", "remove"})
+     */
+    private $client;
 
     /**
      * @return mixed
@@ -172,6 +176,23 @@ class Product
     {
         $this->contract = $contract;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param mixed $client
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+    }
+
 
 
 

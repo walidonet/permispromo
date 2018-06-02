@@ -27,12 +27,17 @@ class Folder
      */
     protected $id;
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $tranche = "";
+    /**
      * @ORM\Column(type="string")
      */
     private $etat = "";
+
     /**
-     * @OneToOne(targetEntity="OM\EspaceUserBundle\Entity\User")
-     * @JoinColumn(name="client_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="OM\EspaceUserBundle\Entity\User",inversedBy="folder")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
     private $client;
 
@@ -84,8 +89,20 @@ class Folder
         $this->client = $client;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTranche()
+    {
+        return $this->tranche;
+    }
 
-
-
+    /**
+     * @param mixed $tranche
+     */
+    public function setTranche($tranche)
+    {
+        $this->tranche = $tranche;
+    }
 
 }

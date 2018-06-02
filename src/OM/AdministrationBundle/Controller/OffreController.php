@@ -26,10 +26,12 @@ class OffreController extends FOSRestController
         $data = new Offre();
         $libele = $request->get('libele');
         $prix = $request->get('prix');
+        $prix1 = $request->get('prix1');
         $work = $request->get('work');
 
 
         $data->setLibele($libele);
+        $data->setPrix1($prix1);
         $data->setPrix($prix);
         if($work=="true"){
             $data->setWork(true);
@@ -61,6 +63,7 @@ class OffreController extends FOSRestController
                 'id'=>$result->getId(),
                 'libele' => $result->getLibele(),
                 'prix' => $result->getPrix(),
+                'prix1' => $result->getPrix1(),
                 'work' => $result->getWork(),
 
             ];
@@ -70,17 +73,20 @@ class OffreController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("api/{id}/offre")
-     * @param $id
+     * @Rest\Put("api/{id}/offre", name="_upoffres")
      * @param Request $request
      * @return Response
      */
-    public function updateAction($id,Request $request)
+    public function updateAction(Request $request)
     {
+
         $data = new Offre();
         $libele = $request->get('libele');
+        $prix1 = $request->get('prix1');
         $prix = $request->get('prix');
         $work= $request->get('work');
+        $id= $request->get('id');
+        //var_dump($prix);die();
         $em = $this->getDoctrine()->getManager();
         $offre = $this->getDoctrine()->getRepository('OMAdministrationBundle:Offre')->find($id);
         if (empty($offre)) {
@@ -90,6 +96,7 @@ class OffreController extends FOSRestController
         elseif(!empty($offre) ){
             $offre->setLibele($libele);
             $offre->setPrix($prix);
+            $offre->setPrix1($prix1);
             if($work=="true")
                 $offre->setWork(true);
             else
@@ -123,6 +130,7 @@ class OffreController extends FOSRestController
                     'id'=>$result->getId(),
                     'libele' => $result->getLibele(),
                     'prix' => $result->getPrix(),
+                    'prix1' => $result->getPrix1(),
                     'work' => $result->getWork(),
 
                 ];
